@@ -1,200 +1,242 @@
-import { Link } from "react-router-dom";
-
-function GoogleIcon() {
-  return (
-    <svg
-      width="19"
-      height="19"
-      viewBox="0 0 24 24"
-      aria-hidden="true"
-    >
-      <path
-        fill="#4285F4"
-        d="M21.35 12.23c0-.68-.06-1.35-.18-1.98H12v3.75h5.24a4.48 4.48 0 0 1-1.94 2.94v2.44h3.14c1.84-1.69 2.91-4.18 2.91-7.15Z"
-      />
-
-      <path
-        fill="#34A853"
-        d="M12 21.72c2.63 0 4.84-.87 6.45-2.34l-3.14-2.44c-.87.58-1.98.92-3.31.92-2.54 0-4.7-1.72-5.47-4.03H3.29v2.52A9.74 9.74 0 0 0 12 21.72Z"
-      />
-
-      <path
-        fill="#FBBC05"
-        d="M6.53 13.83A5.86 5.86 0 0 1 6.22 12c0-.64.11-1.26.31-1.83V7.65H3.29A9.74 9.74 0 0 0 2.25 12c0 1.57.38 3.06 1.04 4.35l3.24-2.52Z"
-      />
-
-      <path
-        fill="#EA4335"
-        d="M12 6.14c1.43 0 2.71.49 3.72 1.45l2.79-2.79C16.83 3.24 14.63 2.28 12 2.28a9.74 9.74 0 0 0-8.71 5.37l3.24 2.52C6.3 7.86 8.46 6.14 12 6.14Z"
-      />
-    </svg>
-  );
-}
-
+import { useState } from "react";
+import { motion } from "framer-motion";
 
 function Signin() {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  const [rememberMe, setRememberMe] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    setError("");
+
+    if (!email || !password) {
+      setError("Please enter your email and password.");
+      return;
+    }
+
+    try {
+      setLoading(true);
+
+      const response = await fetch(
+        "http://localhost:5000/api/auth/login",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            email,
+            password,
+          }),
+        }
+      );
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.message || "Login failed.");
+      }
+
+      // Store the JWT returned by the backend
+      if (rememberMe) {
+        localStorage.setItem("saom_token", data.token);
+        localStorage.setItem("saom_user", JSON.stringify(data.user));
+      } else {
+        sessionStorage.setItem("saom_token", data.token);
+        sessionStorage.setItem("saom_user", JSON.stringify(data.user));
+      }
+
+      // Temporary redirect
+      window.location.href = "/home";
+    } catch (err) {
+      setError(err.message || "Something went wrong.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
-    <main className="auth-page">
+    <div className="signin-page">
 
       {/* LEFT SIDE */}
-
-      <section className="auth-visual">
-
-        <Link to="/" className="auth-logo">
-          <span className="auth-logo-mark">S</span>
-          <span>SAOM-AI</span>
-        </Link>
-
-        <div className="auth-message">
-
-          <span className="auth-eyebrow">
-            SECURE ACCESS
-          </span>
-
-          <h1>
-            Security
-            <br />
-            <strong>starts here.</strong>
-          </h1>
-
-          <p>
-            Enter your security workspace and
-            continue protecting what matters.
-          </p>
-
+      <motion.div
+        className="signin-brand"
+        initial={{ opacity: 0, x: -30 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ duration: 0.6 }}
+      >
+        <div className="brand-icon">
+          🛡
         </div>
 
-      </section>
+        <h1>SAOM-AI</h1>
 
+        <p>
+          Next-generation cybersecurity orchestration
+          powered by autonomous intelligence.
+        </p>
+      </motion.div>
 
       {/* RIGHT SIDE */}
+      <motion.div
+        className="signin-container"
+        initial={{ opacity: 0, y: 25 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6, delay: 0.1 }}
+      >
+        <div className="signin-card">
 
-      <section className="auth-form-section">
-
-        <div className="auth-form-container">
-
-          {/* HEADING */}
-
-          <div className="auth-form-heading">
-
-            <span className="auth-mobile-eyebrow">
-              SAOM-AI
-            </span>
-
-            <h2>
-              Welcome back
-            </h2>
+          <div className="signin-header">
+            <h2>Welcome back</h2>
 
             <p>
-              Sign in to your security workspace.
+              Sign in to continue to your SAOM-AI workspace.
             </p>
-
           </div>
 
+          <form onSubmit={handleSubmit}>
 
-          {/* EMAIL + PASSWORD */}
-
-          <form>
-
-            <div className="auth-field">
-
+            {/* EMAIL */}
+            <div className="form-group">
               <label htmlFor="email">
-                WORK EMAIL
+                EMAIL ADDRESS
+
               </label>
 
               <input
                 id="email"
                 type="email"
-                placeholder="you@company.com"
+                placeholder="you@example.com"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                autoComplete="email"
               />
-
             </div>
 
-
-            <div className="auth-field">
+            {/* PASSWORD */}
+            <div className="form-group">
 
               <div className="password-label">
+         
 
                 <label htmlFor="password">
                   PASSWORD
                 </label>
 
-                <Link to="/forgot">
+                <a href="/forgot-password">
                   Forgot password?
-                </Link>
-
+                </a>
               </div>
 
-              <input
-                id="password"
-                type="password"
-                placeholder="Enter your password"
-              />
+              <div className="password-wrapper">
+
+                <input
+                  id="password"
+                  type={showPassword ? "text" : "password"}
+                  placeholder="Enter your password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  autoComplete="current-password"
+                />
+
+                <button
+                  type="button"
+                  className="password-toggle"
+                  onClick={() => setShowPassword(!showPassword)}
+                  aria-label={
+                    showPassword
+                      ? "Hide password"
+                      : "Show password"
+                  }
+                >
+                  {showPassword ? "◉" : "◌"}
+                </button>
+
+              </div>
+            </div>
+
+            {/* REMEMBER ME */}
+            <div className="remember-row">
+
+              <label className="remember-label">
+                <input
+                  type="checkbox"
+                  checked={rememberMe}
+                  onChange={(e) =>
+                    setRememberMe(e.target.checked)
+                  }
+                />
+
+                <span>Remember me</span>
+              </label>
 
             </div>
 
+            {/* ERROR */}
+            {error && (
+              <motion.div
+                className="signin-error"
+                initial={{ opacity: 0, y: -5 }}
+                animate={{ opacity: 1, y: 0 }}
+              >
+                {error}
+              </motion.div>
+            )}
 
-            {/* SIGN IN */}
-
-            <button
+            {/* SIGN IN BUTTON */}
+            <motion.button
               type="submit"
-              className="auth-submit"
+              className="signin-button"
+              disabled={loading}
+              whileHover={{ scale: loading ? 1 : 1.01 }}
+              whileTap={{ scale: loading ? 1 : 0.98 }}
             >
-              Sign In
-              <span>→</span>
-            </button>
+              {loading ? "SIGNING IN..." : "SIGN IN"}
+              {!loading && <span>→</span>}
+            </motion.button>
 
           </form>
 
-
-          {/* OR */}
-
-          <div className="auth-divider">
+          {/* DIVIDER */}
+          <div className="divider">
             <span>OR</span>
           </div>
 
-
-          {/* GOOGLE — LAST */}
-
+          {/* GOOGLE */}
           <button
             type="button"
             className="google-button"
+            onClick={() => {
+              alert("Google authentication will be connected later.");
+            }}
           >
-
-            <GoogleIcon />
-
-            <span>
-              Continue with Google
-            </span>
-
+            <span className="google-icon">G</span>
+            Continue with Google
           </button>
 
-
           {/* SIGN UP */}
-
-          <p className="auth-switch">
-
-            Don't have an account?
-
-            <Link to="/signup">
-              Create one
-            </Link>
-
-          </p>
-
-
-          {/* LEGAL */}
-
-          <p className="auth-legal">
-            By continuing, you agree to SAOM-AI's
-            Terms of Service and Privacy Policy.
-          </p>
+          <div className="signup-text">
+            Don't have an account?{" "}
+            <a href="/signup">
+              Sign Up
+            </a>
+          </div>
 
         </div>
 
-      </section>
+        <div className="copyright">
+          © 2026 SAOM-AI SECURITY SYSTEMS
+        </div>
 
-    </main>
+      </motion.div>
+
+    </div>
+
   );
 }
 
