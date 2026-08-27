@@ -2,27 +2,19 @@ import { Link } from "react-router-dom";
 
 function GoogleIcon() {
   return (
-    <svg
-      width="19"
-      height="19"
-      viewBox="0 0 24 24"
-      aria-hidden="true"
-    >
+    <svg width="19" height="19" viewBox="0 0 24 24" aria-hidden="true">
       <path
         fill="#4285F4"
         d="M21.35 12.23c0-.68-.06-1.35-.18-1.98H12v3.75h5.24a4.48 4.48 0 0 1-1.94 2.94v2.44h3.14c1.84-1.69 2.91-4.18 2.91-7.15Z"
       />
-
       <path
         fill="#34A853"
         d="M12 21.72c2.63 0 4.84-.87 6.45-2.34l-3.14-2.44c-.87.58-1.98.92-3.31.92-2.54 0-4.7-1.72-5.47-4.03H3.29v2.52A9.74 9.74 0 0 0 12 21.72Z"
       />
-
       <path
         fill="#FBBC05"
         d="M6.53 13.83A5.86 5.86 0 0 1 6.22 12c0-.64.11-1.26.31-1.83V7.65H3.29A9.74 9.74 0 0 0 2.25 12c0 1.57.38 3.06 1.04 4.35l3.24-2.52Z"
       />
-
       <path
         fill="#EA4335"
         d="M12 6.14c1.43 0 2.71.49 3.72 1.45l2.79-2.79C16.83 3.24 14.63 2.28 12 2.28a9.74 9.74 0 0 0-8.71 5.37l3.24 2.52C6.3 7.86 8.46 6.14 12 6.14Z"
@@ -31,8 +23,7 @@ function GoogleIcon() {
   );
 }
 
-
-function Signin() {
+function Signup() {
   return (
     <main className="auth-page">
 
@@ -48,18 +39,18 @@ function Signin() {
         <div className="auth-message">
 
           <span className="auth-eyebrow">
-            SECURE ACCESS
+            SECURE YOUR WORKSPACE
           </span>
 
           <h1>
-            Security
+            Build your
             <br />
-            <strong>starts here.</strong>
+            <strong>defense.</strong>
           </h1>
 
           <p>
-            Enter your security workspace and
-            continue protecting what matters.
+            Create your security workspace and
+            start building a safer digital environment.
           </p>
 
         </div>
@@ -73,37 +64,50 @@ function Signin() {
 
         <div className="auth-form-container">
 
-          {/* HEADING */}
-
           <div className="auth-form-heading">
 
             <span className="auth-mobile-eyebrow">
               SAOM-AI
             </span>
 
-            <h2>
-              Welcome back
-            </h2>
+            <h2>Create your account</h2>
 
             <p>
-              Sign in to your security workspace.
+              Start your security journey with SAOM-AI.
             </p>
 
           </div>
 
 
-          {/* EMAIL + PASSWORD */}
-
           <form>
+
+            {/* FULL NAME */}
 
             <div className="auth-field">
 
-              <label htmlFor="email">
+              <label htmlFor="name">
+                FULL NAME
+              </label>
+
+              <input
+                id="name"
+                type="text"
+                placeholder="Your name"
+              />
+
+            </div>
+
+
+            {/* EMAIL */}
+
+            <div className="auth-field">
+
+              <label htmlFor="signup-email">
                 WORK EMAIL
               </label>
 
               <input
-                id="email"
+                id="signup-email"
                 type="email"
                 placeholder="you@company.com"
               />
@@ -111,43 +115,54 @@ function Signin() {
             </div>
 
 
+            {/* PASSWORD */}
+
             <div className="auth-field">
 
-              <div className="password-label">
-
-                <label htmlFor="password">
-                  PASSWORD
-                </label>
-
-                <Link to="/forgot">
-                  Forgot password?
-                </Link>
-
-              </div>
+              <label htmlFor="signup-password">
+                PASSWORD
+              </label>
 
               <input
-                id="password"
+                id="signup-password"
                 type="password"
-                placeholder="Enter your password"
+                placeholder="Create a password"
               />
 
             </div>
 
 
-            {/* SIGN IN */}
+            {/* CONFIRM PASSWORD */}
+
+            <div className="auth-field">
+
+              <label htmlFor="confirm-password">
+                CONFIRM PASSWORD
+              </label>
+
+              <input
+                id="confirm-password"
+                type="password"
+                placeholder="Repeat your password"
+              />
+
+            </div>
+
+
+            {/* CREATE ACCOUNT */}
 
             <button
               type="submit"
               className="auth-submit"
             >
-              Sign In
+              Create Account
               <span>→</span>
             </button>
 
           </form>
 
 
-          {/* OR */}
+          {/* DIVIDER */}
 
           <div className="auth-divider">
             <span>OR</span>
@@ -156,37 +171,30 @@ function Signin() {
 
           {/* GOOGLE — LAST */}
 
-          <button
-            type="button"
-            className="google-button"
-          >
+          <button className="google-button">
 
             <GoogleIcon />
 
-            <span>
-              Continue with Google
-            </span>
+            <span>Continue with Google</span>
 
           </button>
 
 
-          {/* SIGN UP */}
+          {/* SIGN IN */}
 
           <p className="auth-switch">
 
-            Don't have an account?
+            Already have an account?
 
-            <Link to="/signup">
-              Create one
+            <Link to="/signin">
+              Sign in
             </Link>
 
           </p>
 
 
-          {/* LEGAL */}
-
           <p className="auth-legal">
-            By continuing, you agree to SAOM-AI's
+            By creating an account, you agree to SAOM-AI's
             Terms of Service and Privacy Policy.
           </p>
 
@@ -198,4 +206,4 @@ function Signin() {
   );
 }
 
-export default Signin;
+export default Signup;
