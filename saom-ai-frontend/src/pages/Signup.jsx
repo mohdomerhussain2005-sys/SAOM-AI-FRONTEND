@@ -7,13 +7,18 @@ function Signup() {
   const [fullName, setFullName] = useState("");
   const [organization, setOrganization] = useState("");
   const [email, setEmail] = useState("");
+
   const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] =
+    useState("");
 
   const [otp, setOtp] = useState("");
 
-  const [showPassword, setShowPassword] = useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [showPassword, setShowPassword] =
+    useState(false);
+
+  const [showConfirmPassword, setShowConfirmPassword] =
+    useState(false);
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -33,7 +38,7 @@ function Signup() {
     passwordRequirements.number;
 
   // ==========================================
-  // REGISTER
+  // CREATE ACCOUNT + SEND OTP
   // ==========================================
 
   const handleRegister = async (e) => {
@@ -53,15 +58,15 @@ function Signup() {
       return;
     }
 
+    if (password !== confirmPassword) {
+      setError("Passwords do not match.");
+      return;
+    }
+
     if (!passwordValid) {
       setError(
         "Password must be at least 8 characters and contain uppercase, lowercase, and a number."
       );
-      return;
-    }
-
-    if (password !== confirmPassword) {
-      setError("Passwords do not match.");
       return;
     }
 
@@ -78,18 +83,20 @@ function Signup() {
           },
           body: JSON.stringify({
             full_name: fullName,
-            organization: organization,
-            email: email,
-            password: password,
+            organization,
+            email,
+            password,
           }),
         }
       );
 
-      const registerData = await registerResponse.json();
+      const registerData =
+        await registerResponse.json();
 
       if (!registerResponse.ok) {
         throw new Error(
-          registerData.message || "Unable to create account."
+          registerData.message ||
+            "Unable to create account."
         );
       }
 
@@ -102,7 +109,7 @@ function Signup() {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            email: email,
+            email,
           }),
         }
       );
@@ -111,21 +118,27 @@ function Signup() {
 
       if (!otpResponse.ok) {
         throw new Error(
-          otpData.message || "Unable to send verification code."
+          otpData.message ||
+            "Unable to send verification code."
         );
       }
 
-      setMessage("Verification code sent to your email.");
+      setMessage(
+        "Verification code sent to your email."
+      );
+
       setStep("otp");
     } catch (err) {
-      setError(err.message || "Something went wrong.");
+      setError(
+        err.message || "Something went wrong."
+      );
     } finally {
       setLoading(false);
     }
   };
 
   // ==========================================
-  // VERIFY OTP + AUTOMATIC LOGIN
+  // VERIFY OTP + LOGIN
   // ==========================================
 
   const handleVerifyOtp = async (e) => {
@@ -135,7 +148,9 @@ function Signup() {
     setMessage("");
 
     if (otp.length !== 6) {
-      setError("Please enter the 6-digit verification code.");
+      setError(
+        "Please enter the 6-digit verification code."
+      );
       return;
     }
 
@@ -151,23 +166,27 @@ function Signup() {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            email: email,
-            otp: otp,
+            email,
+            otp,
           }),
         }
       );
 
-      const verifyData = await verifyResponse.json();
+      const verifyData =
+        await verifyResponse.json();
 
       if (!verifyResponse.ok) {
         throw new Error(
-          verifyData.message || "Invalid verification code."
+          verifyData.message ||
+            "Invalid verification code."
         );
       }
 
-      setMessage("Email verified. Signing you in...");
+      setMessage(
+        "Email verified. Signing you in..."
+      );
 
-      // 2. Automatically login after verification
+      // 2. Login automatically
       const loginResponse = await fetch(
         "http://localhost:5000/api/auth/login",
         {
@@ -176,13 +195,14 @@ function Signup() {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            email: email,
-            password: password,
+            email,
+            password,
           }),
         }
       );
 
-      const loginData = await loginResponse.json();
+      const loginData =
+        await loginResponse.json();
 
       if (!loginResponse.ok) {
         throw new Error(
@@ -191,19 +211,26 @@ function Signup() {
         );
       }
 
-      // 3. Store JWT + user information
-      localStorage.setItem("saom_token", loginData.token);
+      // 3. Store JWT + user
+      localStorage.setItem(
+        "saom_token",
+        loginData.token
+      );
+
       localStorage.setItem(
         "saom_user",
         JSON.stringify(loginData.user)
       );
 
-      // 4. Send user directly to dashboard
+      // 4. Redirect to Dashboard
       setTimeout(() => {
-        window.location.href = "/home";
+        window.location.href = "/dashboard";
       }, 700);
+
     } catch (err) {
-      setError(err.message || "Verification failed.");
+      setError(
+        err.message || "Verification failed."
+      );
     } finally {
       setLoading(false);
     }
@@ -212,15 +239,21 @@ function Signup() {
   return (
     <div className="signin-page">
 
-      {/* ==========================================
-          LEFT BRANDING
-          ========================================== */}
+      {/* LEFT BRANDING */}
 
       <motion.div
         className="signin-brand"
-        initial={{ opacity: 0, x: -30 }}
-        animate={{ opacity: 1, x: 0 }}
-        transition={{ duration: 0.6 }}
+        initial={{
+          opacity: 0,
+          x: -30,
+        }}
+        animate={{
+          opacity: 1,
+          x: 0,
+        }}
+        transition={{
+          duration: 0.6,
+        }}
       >
         <div className="brand-icon">
           🛡
@@ -234,25 +267,30 @@ function Signup() {
         </p>
       </motion.div>
 
-      {/* ==========================================
-          RIGHT SIDE
-          ========================================== */}
+      {/* RIGHT SIDE */}
 
       <motion.div
         className="signin-container"
-        initial={{ opacity: 0, y: 25 }}
-        animate={{ opacity: 1, y: 0 }}
+        initial={{
+          opacity: 0,
+          y: 25,
+        }}
+        animate={{
+          opacity: 1,
+          y: 0,
+        }}
         transition={{
           duration: 0.6,
           delay: 0.1,
         }}
       >
+
         <div className="signin-card">
 
           <AnimatePresence mode="wait">
 
             {/* ======================================
-                SIGN UP FORM
+                SIGN UP
                 ====================================== */}
 
             {step === "signup" && (
@@ -269,9 +307,6 @@ function Signup() {
                 exit={{
                   opacity: 0,
                   x: -20,
-                }}
-                transition={{
-                  duration: 0.25,
                 }}
               >
 
@@ -318,7 +353,9 @@ function Signup() {
                       placeholder="Your organization"
                       value={organization}
                       onChange={(e) =>
-                        setOrganization(e.target.value)
+                        setOrganization(
+                          e.target.value
+                        )
                       }
                       autoComplete="organization"
                     />
@@ -362,7 +399,9 @@ function Signup() {
                         placeholder="Create a password"
                         value={password}
                         onChange={(e) =>
-                          setPassword(e.target.value)
+                          setPassword(
+                            e.target.value
+                          )
                         }
                         autoComplete="new-password"
                       />
@@ -371,10 +410,57 @@ function Signup() {
                         type="button"
                         className="password-toggle"
                         onClick={() =>
-                          setShowPassword(!showPassword)
+                          setShowPassword(
+                            !showPassword
+                          )
                         }
                       >
-                        {showPassword ? "◉" : "◌"}
+                        {showPassword
+                          ? "◉"
+                          : "◌"}
+                      </button>
+
+                    </div>
+                  </div>
+
+                  {/* CONFIRM PASSWORD */}
+
+                  <div className="form-group">
+                    <label htmlFor="confirm-password">
+                      CONFIRM PASSWORD
+                    </label>
+
+                    <div className="password-wrapper">
+
+                      <input
+                        id="confirm-password"
+                        type={
+                          showConfirmPassword
+                            ? "text"
+                            : "password"
+                        }
+                        placeholder="Confirm password"
+                        value={confirmPassword}
+                        onChange={(e) =>
+                          setConfirmPassword(
+                            e.target.value
+                          )
+                        }
+                        autoComplete="new-password"
+                      />
+
+                      <button
+                        type="button"
+                        className="password-toggle"
+                        onClick={() =>
+                          setShowConfirmPassword(
+                            !showConfirmPassword
+                          )
+                        }
+                      >
+                        {showConfirmPassword
+                          ? "◉"
+                          : "◌"}
                       </button>
 
                     </div>
@@ -440,86 +526,23 @@ function Signup() {
                     </div>
                   )}
 
-                  {/* CONFIRM PASSWORD */}
-
-                  <div className="form-group">
-                    <label htmlFor="confirm-password">
-                      CONFIRM PASSWORD
-                    </label>
-
-                    <div className="password-wrapper">
-
-                      <input
-                        id="confirm-password"
-                        type={
-                          showConfirmPassword
-                            ? "text"
-                            : "password"
-                        }
-                        placeholder="Confirm your password"
-                        value={confirmPassword}
-                        onChange={(e) =>
-                          setConfirmPassword(
-                            e.target.value
-                          )
-                        }
-                        autoComplete="new-password"
-                      />
-
-                      <button
-                        type="button"
-                        className="password-toggle"
-                        onClick={() =>
-                          setShowConfirmPassword(
-                            !showConfirmPassword
-                          )
-                        }
-                      >
-                        {showConfirmPassword
-                          ? "◉"
-                          : "◌"}
-                      </button>
-
-                    </div>
-                  </div>
-
                   {/* ERROR */}
 
                   {error && (
-                    <motion.div
-                      className="signin-error"
-                      initial={{
-                        opacity: 0,
-                        y: -5,
-                      }}
-                      animate={{
-                        opacity: 1,
-                        y: 0,
-                      }}
-                    >
+                    <div className="signin-error">
                       {error}
-                    </motion.div>
+                    </div>
                   )}
 
-                  {/* MESSAGE */}
+                  {/* SUCCESS */}
 
                   {message && (
-                    <motion.div
-                      className="signup-message"
-                      initial={{
-                        opacity: 0,
-                        y: -5,
-                      }}
-                      animate={{
-                        opacity: 1,
-                        y: 0,
-                      }}
-                    >
+                    <div className="signup-message">
                       {message}
-                    </motion.div>
+                    </div>
                   )}
 
-                  {/* CREATE ACCOUNT */}
+                  {/* BUTTON */}
 
                   <motion.button
                     type="submit"
@@ -541,32 +564,6 @@ function Signup() {
 
                 </form>
 
-                {/* DIVIDER */}
-
-                <div className="divider">
-                  <span>OR</span>
-                </div>
-
-                {/* GOOGLE */}
-
-                <button
-                  type="button"
-                  className="google-button"
-                  onClick={() =>
-                    alert(
-                      "Google Sign Up will be connected next."
-                    )
-                  }
-                >
-                  <span className="google-icon">
-                    G
-                  </span>
-
-                  Continue with Google
-                </button>
-
-                {/* SIGN IN */}
-
                 <div className="signup-text">
                   Already have an account?{" "}
 
@@ -579,7 +576,7 @@ function Signup() {
             )}
 
             {/* ======================================
-                OTP VERIFICATION
+                OTP
                 ====================================== */}
 
             {step === "otp" && (
@@ -597,9 +594,6 @@ function Signup() {
                   opacity: 0,
                   x: -20,
                 }}
-                transition={{
-                  duration: 0.25,
-                }}
               >
 
                 <div className="signin-header">
@@ -616,12 +610,12 @@ function Signup() {
                 <form onSubmit={handleVerifyOtp}>
 
                   <div className="form-group">
-                    <label htmlFor="otp">
+                    <label htmlFor="signup-otp">
                       VERIFICATION CODE
                     </label>
 
                     <input
-                      id="otp"
+                      id="signup-otp"
                       type="text"
                       inputMode="numeric"
                       maxLength="6"
@@ -639,35 +633,15 @@ function Signup() {
                   </div>
 
                   {error && (
-                    <motion.div
-                      className="signin-error"
-                      initial={{
-                        opacity: 0,
-                        y: -5,
-                      }}
-                      animate={{
-                        opacity: 1,
-                        y: 0,
-                      }}
-                    >
+                    <div className="signin-error">
                       {error}
-                    </motion.div>
+                    </div>
                   )}
 
                   {message && (
-                    <motion.div
-                      className="signup-message"
-                      initial={{
-                        opacity: 0,
-                        y: -5,
-                      }}
-                      animate={{
-                        opacity: 1,
-                        y: 0,
-                      }}
-                    >
+                    <div className="signup-message">
                       {message}
-                    </motion.div>
+                    </div>
                   )}
 
                   <motion.button
@@ -698,9 +672,9 @@ function Signup() {
                     className="text-button"
                     onClick={() => {
                       setStep("signup");
+                      setOtp("");
                       setError("");
                       setMessage("");
-                      setOtp("");
                     }}
                   >
                     Go back
@@ -721,7 +695,6 @@ function Signup() {
       </motion.div>
 
     </div>
-
   );
 }
 

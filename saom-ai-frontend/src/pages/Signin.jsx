@@ -1,15 +1,17 @@
 import { useState } from "react";
-import { motion } from "framer-motion";
+import { useNavigate } from "react-router-dom";
 
 function Signin() {
+  const navigate = useNavigate();
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [showPassword, setShowPassword] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
+
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
-  const handleSubmit = async (e) => {
+  const handleSignin = async (e) => {
     e.preventDefault();
 
     setError("");
@@ -39,22 +41,28 @@ function Signin() {
       const data = await response.json();
 
       if (!response.ok) {
-        throw new Error(data.message || "Login failed.");
+        throw new Error(
+          data.message || "Invalid email or password."
+        );
       }
 
-      // Store the JWT returned by the backend
-      if (rememberMe) {
-        localStorage.setItem("saom_token", data.token);
-        localStorage.setItem("saom_user", JSON.stringify(data.user));
-      } else {
-        sessionStorage.setItem("saom_token", data.token);
-        sessionStorage.setItem("saom_user", JSON.stringify(data.user));
-      }
+      // Store authentication data
+      const storage = rememberMe
+        ? localStorage
+        : sessionStorage;
 
-      // Temporary redirect
-      window.location.href = "/home";
+      storage.setItem("saom_token", data.token);
+      storage.setItem(
+        "saom_user",
+        JSON.stringify(data.user)
+      );
+
+      // Redirect to Dashboard
+      navigate("/dashboard");
     } catch (err) {
-      setError(err.message || "Something went wrong.");
+      setError(
+        err.message || "Unable to sign in."
+      );
     } finally {
       setLoading(false);
     }
@@ -63,13 +71,9 @@ function Signin() {
   return (
     <div className="signin-page">
 
-      {/* LEFT SIDE */}
-      <motion.div
-        className="signin-brand"
-        initial={{ opacity: 0, x: -30 }}
-        animate={{ opacity: 1, x: 0 }}
-        transition={{ duration: 0.6 }}
-      >
+      {/* LEFT BRANDING */}
+
+      <div className="signin-brand">
         <div className="brand-icon">
           🛡
         </div>
@@ -80,90 +84,68 @@ function Signin() {
           Next-generation cybersecurity orchestration
           powered by autonomous intelligence.
         </p>
-      </motion.div>
+      </div>
 
-      {/* RIGHT SIDE */}
-      <motion.div
-        className="signin-container"
-        initial={{ opacity: 0, y: 25 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6, delay: 0.1 }}
-      >
+      {/* SIGN IN */}
+
+      <div className="signin-container">
+
         <div className="signin-card">
 
           <div className="signin-header">
             <h2>Welcome back</h2>
 
             <p>
-              Sign in to continue to your SAOM-AI workspace.
+              Sign in to continue to your SAOM-AI
+              workspace.
             </p>
           </div>
 
-          <form onSubmit={handleSubmit}>
+          <form onSubmit={handleSignin}>
 
             {/* EMAIL */}
-            <div className="form-group">
-              <label htmlFor="email">
-                EMAIL ADDRESS
 
+            <div className="form-group">
+              <label htmlFor="signin-email">
+                EMAIL ADDRESS
               </label>
 
               <input
-                id="email"
+                id="signin-email"
                 type="email"
                 placeholder="you@example.com"
                 value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                onChange={(e) =>
+                  setEmail(e.target.value)
+                }
                 autoComplete="email"
               />
             </div>
 
             {/* PASSWORD */}
+
             <div className="form-group">
+              <label htmlFor="signin-password">
+                PASSWORD
+              </label>
 
-              <div className="password-label">
-         
-
-                <label htmlFor="password">
-                  PASSWORD
-                </label>
-
-                <a href="/forgot-password">
-                  Forgot password?
-                </a>
-              </div>
-
-              <div className="password-wrapper">
-
-                <input
-                  id="password"
-                  type={showPassword ? "text" : "password"}
-                  placeholder="Enter your password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  autoComplete="current-password"
-                />
-
-                <button
-                  type="button"
-                  className="password-toggle"
-                  onClick={() => setShowPassword(!showPassword)}
-                  aria-label={
-                    showPassword
-                      ? "Hide password"
-                      : "Show password"
-                  }
-                >
-                  {showPassword ? "◉" : "◌"}
-                </button>
-
-              </div>
+              <input
+                id="signin-password"
+                type="password"
+                placeholder="Enter your password"
+                value={password}
+                onChange={(e) =>
+                  setPassword(e.target.value)
+                }
+                autoComplete="current-password"
+              />
             </div>
 
-            {/* REMEMBER ME */}
-            <div className="remember-row">
+            {/* REMEMBER ME + FORGOT PASSWORD */}
 
-              <label className="remember-label">
+            <div className="signin-options">
+
+              <label className="remember-me">
                 <input
                   type="checkbox"
                   checked={rememberMe}
@@ -175,55 +157,43 @@ function Signin() {
                 <span>Remember me</span>
               </label>
 
+              <a href="/forgot-password">
+                Forgot password?
+              </a>
+
             </div>
 
             {/* ERROR */}
+
             {error && (
-              <motion.div
-                className="signin-error"
-                initial={{ opacity: 0, y: -5 }}
-                animate={{ opacity: 1, y: 0 }}
-              >
+              <div className="signin-error">
                 {error}
-              </motion.div>
+              </div>
             )}
 
-            {/* SIGN IN BUTTON */}
-            <motion.button
+            {/* BUTTON */}
+
+            <button
               type="submit"
               className="signin-button"
               disabled={loading}
-              whileHover={{ scale: loading ? 1 : 1.01 }}
-              whileTap={{ scale: loading ? 1 : 0.98 }}
             >
-              {loading ? "SIGNING IN..." : "SIGN IN"}
+              {loading
+                ? "SIGNING IN..."
+                : "SIGN IN"}
+
               {!loading && <span>→</span>}
-            </motion.button>
+            </button>
 
           </form>
 
-          {/* DIVIDER */}
-          <div className="divider">
-            <span>OR</span>
-          </div>
-
-          {/* GOOGLE */}
-          <button
-            type="button"
-            className="google-button"
-            onClick={() => {
-              alert("Google authentication will be connected later.");
-            }}
-          >
-            <span className="google-icon">G</span>
-            Continue with Google
-          </button>
-
           {/* SIGN UP */}
+
           <div className="signup-text">
             Don't have an account?{" "}
+
             <a href="/signup">
-              Sign Up
+              Create one
             </a>
           </div>
 
@@ -233,10 +203,9 @@ function Signin() {
           © 2026 SAOM-AI SECURITY SYSTEMS
         </div>
 
-      </motion.div>
+      </div>
 
     </div>
-
   );
 }
 

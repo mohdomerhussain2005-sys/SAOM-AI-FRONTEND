@@ -4,27 +4,7 @@ import "./App.css";
 import Signin from "./pages/Signin";
 import Signup from "./pages/Signup";
 import Forget from "./pages/Forget";
-
-function Home() {
-  return (
-    <div
-      style={{
-        minHeight: "100vh",
-        background: "#05080D",
-        color: "#FEFED0",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        fontFamily: "Arial, sans-serif",
-        fontSize: "32px",
-        fontWeight: "600",
-      }}
-    >
-      SAOM-AI Dashboard
-    </div>
-  );
-}
-
+import Home from "./pages/Home";
 
 function App() {
   return (
@@ -37,7 +17,7 @@ function App() {
           element={<Signin />}
         />
 
-        {/* Sign Up + Email OTP */}
+        {/* Sign Up + OTP */}
         <Route
           path="/signup"
           element={<Signup />}
@@ -50,6 +30,12 @@ function App() {
         />
 
         {/* Dashboard */}
+        <Route
+          path="/dashboard"
+          element={<Home />}
+        />
+
+        {/* Keep /home working as well */}
         <Route
           path="/home"
           element={<Home />}
@@ -78,7 +64,6 @@ function App() {
         />
 
       </Routes>
-
     </BrowserRouter>
   );
 }
