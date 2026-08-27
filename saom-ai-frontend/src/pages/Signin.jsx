@@ -105,6 +105,7 @@ function Signin() {
             <div className="form-group">
               <label htmlFor="email">
                 EMAIL ADDRESS
+
               </label>
 
               <input
@@ -121,6 +122,8 @@ function Signin() {
             <div className="form-group">
 
               <div className="password-label">
+         
+
                 <label htmlFor="password">
                   PASSWORD
                 </label>
@@ -233,6 +236,7 @@ function Signin() {
       </motion.div>
 
     </div>
+
   );
 }
 

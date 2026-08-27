@@ -721,6 +721,7 @@ function Signup() {
       </motion.div>
 
     </div>
+
   );
 }
 
