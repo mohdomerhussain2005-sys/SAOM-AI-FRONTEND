@@ -1,192 +1,88 @@
- import { ArrowRight, Play } from "lucide-react";
+import { ArrowRight, Play } from "lucide-react";
 import { Link } from "react-router-dom";
+import { motion } from "framer-motion";
 import CyberGlobe from "./CyberGlobe";
+
+const EASE = [0.16, 1, 0.3, 1];
+
+// Small system labels that float near the globe — not decoration, they
+// state what the globe is actually showing (live monitoring, coverage).
+const SYSTEM_LABELS = [
+  { text: "GLOBAL COVERAGE", className: "hero-tag hero-tag-a" },
+  { text: "LIVE MONITORING", className: "hero-tag hero-tag-b" },
+];
 
 export default function Hero() {
   return (
     <section className="hero" id="home">
-
-      {/* ================================
-          LEFT SIDE
-      ================================= */}
-
       <div className="hero-content">
+        <motion.div
+          className="hero-badge"
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, ease: EASE }}
+        >
+          <span className="badge-dot" />
+          AI-POWERED CYBER DEFENSE
+        </motion.div>
 
-         <div className="hero-badge">
-         <span className="badge-dot" />
-        SEE WHAT OTHERS MISS
-        </div>
+        <motion.h1
+          initial={{ opacity: 0, y: 18 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7, ease: EASE, delay: 0.08 }}
+        >
+          Smarter
+          <br />
+          <span>Threat Detection.</span>
+          <br />
+          <strong>A Safer Tomorrow.</strong>
+        </motion.h1>
 
- <h1 className="hero-title">
+        <motion.p
+          className="hero-description"
+          initial={{ opacity: 0, y: 14 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7, ease: EASE, delay: 0.18 }}
+        >
+          SAOM-AI is an Autonomous AI Security Operations
+          platform that detects, analyzes, and responds to
+          cyber threats in real time — because your security
+          never sleeps.
+        </motion.p>
 
-  <span className="hero-kicker">
-    THE THREAT ISN'T ALWAYS
-  </span>
-
-  <span className="hero-main-line">
-    LOUD.
-  </span>
-
-  <span className="hero-subline">
-    It hides in the pattern.
-  </span>
-
-</h1>
-
-         <p className="hero-description">
-         SAOM-AI connects scattered signals, uncovers
-         suspicious behavior, and turns noise into a
-         clear picture of what's happening.
-        </p>
-
-        <div className="hero-buttons">
-
-          <Link
-            to="/signup"
-            className="hero-primary"
-          >
+        <motion.div
+          className="hero-buttons"
+          initial={{ opacity: 0, y: 14 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7, ease: EASE, delay: 0.28 }}
+        >
+          <Link to="/signup" className="hero-primary">
             Get Started
-
             <ArrowRight size={18} />
           </Link>
 
           <button className="hero-secondary">
-
-            <Play
-              size={14}
-              fill="currentColor"
-            />
-
+            <Play size={14} fill="currentColor" />
             Watch Demo
-
           </button>
-
-        </div>
-
+        </motion.div>
       </div>
 
-
-      {/* ================================
-          RIGHT SIDE
-      ================================= */}
-
-      <div className="hero-visual">
-
+      <motion.div
+        className="hero-visual"
+        initial={{ opacity: 0, scale: 0.94 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 1, ease: EASE, delay: 0.15 }}
+      >
         <CyberGlobe />
 
-
-        {/* LIVE THREAT */}
-
-        <div className="threat-card threat-live">
-
-          <div className="threat-heading">
-
-            <span className="live-dot" />
-
-            LIVE THREAT
-
-          </div>
-
-          <div className="threat-title">
-            Brute Force Attempt
-          </div>
-
-          <div className="threat-subtitle">
-            SSH · 192.168.1.45
-          </div>
-
-        </div>
-
-
-        {/* THREAT BLOCKED */}
-
-        <div className="threat-card threat-blocked">
-
-          <div className="threat-heading">
-
-            <span className="shield-icon">
-              ✓
-            </span>
-
-            THREAT BLOCKED
-
-          </div>
-
-          <div className="threat-title">
-            Malicious IP
-          </div>
-
-          <div className="threat-subtitle">
-            185.199.110.23
-          </div>
-
-        </div>
-
-
-        {/* ANALYZING */}
-
-        <div className="threat-card threat-analyzing">
-
-          <div className="threat-heading">
-
-            <span className="analysis-icon">
-              ≋
-            </span>
-
-            ANALYZING
-
-          </div>
-
-          <div className="threat-title">
-            Unusual Network Activity
-          </div>
-
-        </div>
-
-
-        {/* AI INSIGHT */}
-
-        <div className="threat-card threat-ai">
-
-          <div className="threat-heading">
-
-            <span className="ai-icon">
-              ✦
-            </span>
-
-            AI INSIGHT
-
-          </div>
-
-          <div className="threat-title">
-            Possible Lateral Movement
-          </div>
-
-          <div className="threat-subtitle">
-            Detected
-          </div>
-
-        </div>
-
-
-        {/* GLOBAL LABEL */}
-
-        <div className="global-label">
-
-          <span>
-            GLOBAL THREATS.
+        {SYSTEM_LABELS.map((label) => (
+          <span key={label.text} className={label.className}>
+            <i />
+            {label.text}
           </span>
-
-          <span>
-            REAL-TIME INTELLIGENCE.
-          </span>
-
-          <i />
-
-        </div>
-
-      </div>
-
+        ))}
+      </motion.div>
     </section>
   );
 }
