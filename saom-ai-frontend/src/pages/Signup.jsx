@@ -258,10 +258,66 @@ function Signup() {
     }
   };
 
+  // ============================================================
+  // GOOGLE SIGN UP
+  // ============================================================
   const handleGoogleAuth = () => {
-    console.warn(
-      "Google sign-in is not yet connected to a backend endpoint."
-    );
+    if (!window.google?.accounts?.oauth2) {
+      setError("Google authentication is still loading. Please try again.");
+      return;
+    }
+
+    const clientId = import.meta.env.VITE_GOOGLE_CLIENT_ID;
+    if (!clientId) {
+      setError("Google authentication is not configured.");
+      return;
+    }
+
+    setError("");
+
+    const tokenClient = window.google.accounts.oauth2.initTokenClient({
+      client_id: clientId,
+      scope: "openid email profile",
+      callback: async (tokenResponse) => {
+        try {
+          if (!tokenResponse?.access_token) {
+            throw new Error("Google authentication was cancelled.");
+          }
+
+          setLoading(true);
+
+          const googleResponse = await fetch(
+            "http://localhost:5000/api/auth/google-access-token",
+            {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                accessToken: tokenResponse.access_token,
+              }),
+            }
+          );
+
+          const data = await googleResponse.json();
+          if (!googleResponse.ok) {
+            throw new Error(data.message || "Google authentication failed.");
+          }
+
+          localStorage.setItem("saom_token", data.token);
+          localStorage.setItem(
+            "saom_user",
+            JSON.stringify(data.user)
+          );
+          window.location.href = "/dashboard";
+        } catch (err) {
+          console.error("Google authentication error:", err);
+          setError(err.message || "Unable to authenticate with Google.");
+        } finally {
+          setLoading(false);
+        }
+      },
+    });
+
+    tokenClient.requestAccessToken({ prompt: "select_account" });
   };
 
   return (

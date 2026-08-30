@@ -1,6 +1,6 @@
  import { useEffect, useRef } from "react";
 import gsap from "gsap";
-import "../styles/component.css";
+import "../styles/Home.css";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
  
