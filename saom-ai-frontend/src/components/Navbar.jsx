@@ -1,117 +1,89 @@
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { ArrowUpRight, Menu, X } from "lucide-react";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { navLinks } from "../data/landingData";
-gsap.registerPlugin(ScrollTrigger);
 
-const EASE = [0.16, 1, 0.3, 1];
+const LINKS = [
+  { label: "Index", href: "#index" },
+  { label: "System", href: "#system" },
+  { label: "Intelligence", href: "#intelligence" },
+  { label: "Contact", href: "#contact" },
+];
 
 export default function Navbar() {
-  const [isScrolled, setIsScrolled] = useState(false);
-  const [active, setActive] = useState(navLinks[0].label);
-  const [menuOpen, setMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  const [open, setOpen] = useState(false);
 
   useEffect(() => {
-    const trigger = ScrollTrigger.create({
-      start: 40,
-      end: 99999,
-      onUpdate: (self) => setIsScrolled(self.scroll() > 40),
-    });
-    return () => trigger.kill();
+    function onScroll() {
+      setScrolled(window.scrollY > 40);
+    }
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  useEffect(() => {
+    document.body.style.overflow = open ? "hidden" : "";
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [open]);
+
   return (
-    <>
-      <motion.div
-        className="saom-nav-wrap"
-        initial={{ y: -60, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 0.8, ease: EASE, delay: 0.1 }}
-      >
-        <nav className={`saom-nav${isScrolled ? " is-scrolled" : ""}`} aria-label="Primary">
-          <a href="#top" className="saom-nav-brand">
-            <span className="saom-nav-mark">S</span>
-            SAOM-AI
-          </a>
+    <header className={`navbar ${scrolled ? "navbar--scrolled" : ""}`}>
+      <nav className="navbar__inner">
+        <a href="#top" className="navbar__mark" data-cursor="hover">
+          <span className="navbar__mark-dot" />
+          SAOM
+        </a>
 
-          <ul className="saom-nav-links">
-            {navLinks.map((link) => (
-              <li key={link.label} style={{ position: "relative" }}>
-                <a
-                  href={link.href}
-                  className={`saom-nav-link${active === link.label ? " is-active" : ""}`}
-                  data-cursor="interactive"
-                  onClick={() => setActive(link.label)}
-                >
-                  {active === link.label && (
-                    <motion.span className="saom-nav-pill" layoutId="saom-nav-pill" transition={{ duration: 0.32, ease: EASE }} />
-                  )}
-                  {link.label}
-                </a>
-              </li>
-            ))}
-          </ul>
+        <ul className="navbar__links">
+          {LINKS.map((link) => (
+            <li key={link.label}>
+              <a href={link.href} data-cursor="hover">
+                {link.label}
+              </a>
+            </li>
+          ))}
+        </ul>
 
-          <a href="#contact" className="saom-nav-cta" data-cursor="interactive">
-            Request Access
-            <ArrowUpRight size={14} />
-          </a>
+        <a href="#contact" className="navbar__cta" data-cursor="hover">
+          Request access
+        </a>
 
-          <button
-            type="button"
-            className="saom-nav-toggle"
-            data-cursor="interactive"
-            aria-label={menuOpen ? "Close menu" : "Open menu"}
-            aria-expanded={menuOpen}
-            onClick={() => setMenuOpen((v) => !v)}
-          >
-            {menuOpen ? <X size={16} /> : <Menu size={16} />}
-          </button>
-        </nav>
-      </motion.div>
+        <button
+          className={`navbar__burger ${open ? "navbar__burger--open" : ""}`}
+          aria-label="Toggle menu"
+          aria-expanded={open}
+          onClick={() => setOpen((v) => !v)}
+        >
+          <span />
+          <span />
+        </button>
+      </nav>
 
       <AnimatePresence>
-        {menuOpen && (
+        {open && (
           <motion.div
-            className="saom-mobile-sheet"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.3 }}
+            className="navbar__mobile"
+            initial={{ opacity: 0, y: -12 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -12 }}
+            transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
           >
-            {navLinks.map((link, i) => (
+            {LINKS.map((link, i) => (
               <motion.a
                 key={link.label}
                 href={link.href}
-                className={`saom-mobile-link${active === link.label ? " is-active" : ""}`}
-                initial={{ opacity: 0, y: 16 }}
+                onClick={() => setOpen(false)}
+                initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.08 * i, duration: 0.4, ease: EASE }}
-                onClick={() => {
-                  setActive(link.label);
-                  setMenuOpen(false);
-                }}
+                transition={{ delay: 0.05 * i, duration: 0.35 }}
               >
                 {link.label}
               </motion.a>
             ))}
-            <motion.a
-              href="#contact"
-              className="saom-btn saom-btn-primary"
-              style={{ marginTop: 24, alignSelf: "flex-start" }}
-              initial={{ opacity: 0, y: 16 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.3, duration: 0.4, ease: EASE }}
-              onClick={() => setMenuOpen(false)}
-            >
-              Request Access
-              <ArrowUpRight size={15} />
-            </motion.a>
           </motion.div>
         )}
       </AnimatePresence>
-    </>
+    </header>
   );
 }
