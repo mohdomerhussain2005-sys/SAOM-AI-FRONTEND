@@ -1,0 +1,1737 @@
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+/* =========================================================
+   SAOM-AI AUTH SYSTEM
+   Clean / Compact / Enterprise Security
+   ========================================================= */
+
+:root {
+  --void: #07090d;
+  --void-2: #0b0d12;
+
+  --panel: #11141a;
+
+  --line: rgba(255, 255, 255, 0.08);
+  --line-strong: rgba(255, 255, 255, 0.13);
+
+  --red: #ff4053;
+  --red-light: #ff5667;
+  --red-dark: #c82034;
+
+  --text: #f2f3f6;
+  --muted: #9299aa;
+  --dim: #5c6374;
+
+  --success: #35d9b5;
+  --danger: #ff6565;
+
+  --display:
+    "Manrope",
+    -apple-system,
+    BlinkMacSystemFont,
+    sans-serif;
+
+  --mono:
+    "JetBrains Mono",
+    monospace;
+
+  --gradient:
+    linear-gradient(
+      135deg,
+      #ff5668 0%,
+      #c91f34 100%
+    );
+
+  --radius: 18px;
+
+  --ease:
+    cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* =========================================================
+   ROOT
+   ========================================================= */
+
+.saom-root {
+  width: 100%;
+  min-height: 100vh;
+
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+
+  position: relative;
+  overflow: hidden;
+
+  background: var(--void);
+
+  color: var(--text);
+
+  font-family: var(--display);
+}
+
+.saom-root * {
+  box-sizing: border-box;
+}
+
+/* =========================================================
+   BACKGROUND
+   ========================================================= */
+
+.saom-ambient {
+  position: absolute;
+  inset: 0;
+
+  z-index: 0;
+  pointer-events: none;
+
+  background:
+    radial-gradient(
+      55% 70% at 8% 50%,
+      rgba(255, 45, 65, 0.10),
+      transparent 70%
+    ),
+    radial-gradient(
+      45% 65% at 92% 50%,
+      rgba(255, 40, 60, 0.065),
+      transparent 70%
+    ),
+    linear-gradient(
+      135deg,
+      #07090d,
+      #0a0c11
+    );
+}
+
+.saom-grid {
+  position: absolute;
+  inset: 0;
+
+  z-index: 0;
+  pointer-events: none;
+
+  opacity: 0.22;
+
+  background-image:
+    linear-gradient(
+      rgba(255,255,255,0.035) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      90deg,
+      rgba(255,255,255,0.035) 1px,
+      transparent 1px
+    );
+
+  background-size: 48px 48px;
+
+  mask-image:
+    radial-gradient(
+      70% 70% at 25% 50%,
+      black,
+      transparent
+    );
+
+  -webkit-mask-image:
+    radial-gradient(
+      70% 70% at 25% 50%,
+      black,
+      transparent
+    );
+}
+
+/* =========================================================
+   LEFT SIDE
+   ========================================================= */
+
+.saom-brand-minimal {
+  min-height: 100vh;
+
+  position: relative;
+  z-index: 1;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 50px;
+}
+
+.saom-minimal-content {
+  width: min(500px, 100%);
+
+  text-align: center;
+
+  transform: translateY(-10px);
+}
+
+/* Brand label */
+
+.saom-minimal-label {
+  display: inline-flex;
+  align-items: center;
+
+  margin-bottom: 25px;
+
+  font-family: var(--mono);
+
+  font-size: 10px;
+  font-weight: 500;
+
+  letter-spacing: 0.2em;
+
+  color: var(--red);
+
+  text-transform: uppercase;
+}
+
+.saom-minimal-label::before {
+  content: "";
+
+  width: 6px;
+  height: 6px;
+
+  margin-right: 9px;
+
+  border-radius: 50%;
+
+  background: var(--red);
+
+  box-shadow:
+    0 0 0 4px rgba(255,59,78,0.10),
+    0 0 18px rgba(255,59,78,0.35);
+}
+
+/* Main heading */
+
+.saom-minimal-content h1 {
+  margin: 0;
+
+  font-family: var(--display);
+
+  font-size: clamp(
+    40px,
+    4vw,
+    60px
+  );
+
+  line-height: 1.05;
+
+  letter-spacing: -0.055em;
+
+  font-weight: 700;
+
+  color: var(--text);
+}
+
+.saom-minimal-content h1 span {
+  display: block;
+
+  margin-top: 3px;
+
+  color: var(--red);
+}
+
+/* Description */
+
+.saom-minimal-content p {
+  max-width: 430px;
+
+  margin: 25px auto 0;
+
+  font-size: 14px;
+
+  line-height: 1.75;
+
+  color: var(--muted);
+
+  font-weight: 400;
+}
+
+/* Bottom detail */
+
+.saom-minimal-line {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 11px;
+
+  margin-top: 30px;
+}
+
+.saom-minimal-line span {
+  width: 32px;
+  height: 1px;
+
+  background:
+    linear-gradient(
+      90deg,
+      transparent,
+      var(--red)
+    );
+}
+
+.saom-minimal-line small {
+  font-family: var(--mono);
+
+  font-size: 8px;
+
+  letter-spacing: 0.15em;
+
+  color: var(--dim);
+}
+
+/* =========================================================
+   RIGHT SIDE
+   ========================================================= */
+
+.saom-stage {
+  min-height: 100vh;
+
+  position: relative;
+  z-index: 1;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 28px 55px 28px 25px;
+}
+
+.saom-stage-inner {
+  width: 100%;
+
+  max-width: 560px;
+
+  display: flex;
+  flex-direction: column;
+
+  gap: 12px;
+}
+
+/* =========================================================
+   MAIN CARD
+   ========================================================= */
+
+.saom-card {
+  position: relative;
+
+  width: 100%;
+
+  padding: 28px 34px 24px;
+
+  border:
+    1px solid
+    rgba(255,255,255,0.085);
+
+  border-radius: var(--radius);
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(255,255,255,0.045),
+      rgba(255,255,255,0.012)
+    ),
+    rgba(14,16,21,0.96);
+
+  box-shadow:
+    0 35px 90px rgba(0,0,0,0.42),
+    0 1px 0 rgba(255,255,255,0.04) inset;
+
+  backdrop-filter: blur(28px);
+  -webkit-backdrop-filter: blur(28px);
+}
+
+/* Red accent on top */
+
+.saom-card::before {
+  content: "";
+
+  position: absolute;
+
+  top: 0;
+  left: 34px;
+  right: 34px;
+
+  height: 1px;
+
+  background:
+    linear-gradient(
+      90deg,
+      transparent,
+      rgba(255,64,83,0.85),
+      transparent
+    );
+}
+
+/* =========================================================
+   STEP INDICATOR
+   ========================================================= */
+
+.saom-steps {
+  display: flex;
+
+  gap: 10px;
+
+  margin-bottom: 22px;
+}
+
+.saom-step {
+  flex: 1;
+
+  display: flex;
+  flex-direction: column;
+
+  gap: 7px;
+}
+
+.saom-step-bar {
+  width: 100%;
+  height: 3px;
+
+  overflow: hidden;
+
+  border-radius: 20px;
+
+  background:
+    rgba(255,255,255,0.09);
+}
+
+.saom-step-bar-fill {
+  width: 100%;
+  height: 100%;
+
+  transform-origin: left;
+}
+
+.saom-step-label {
+  font-family: var(--mono);
+
+  font-size: 8px;
+
+  letter-spacing: 0.13em;
+
+  color: #4d5465;
+
+  text-transform: uppercase;
+}
+
+.saom-step-label.is-active {
+  color: var(--red);
+}
+
+.saom-step-label.is-done {
+  color: var(--success);
+}
+
+/* =========================================================
+   CARD HEADER
+   ========================================================= */
+
+.saom-card-header {
+  text-align: center;
+
+  margin-bottom: 20px;
+}
+
+.saom-card-kicker {
+  margin-bottom: 8px;
+
+  font-family: var(--mono);
+
+  font-size: 8px;
+
+  letter-spacing: 0.20em;
+
+  color: var(--red);
+
+  text-transform: uppercase;
+}
+
+.saom-card-header h2 {
+  margin: 0 0 7px;
+
+  font-family: var(--display);
+
+  font-size: 24px;
+
+  line-height: 1.2;
+
+  font-weight: 700;
+
+  letter-spacing: -0.035em;
+
+  color: var(--text);
+}
+
+.saom-card-header h2 span {
+  color: var(--red);
+}
+
+.saom-card-header p {
+  max-width: 450px;
+
+  margin: 0 auto;
+
+  font-size: 12px;
+
+  line-height: 1.6;
+
+  color: var(--muted);
+}
+
+.saom-card-header strong {
+  color: var(--text);
+
+  font-weight: 600;
+}
+
+/* =========================================================
+   FORM
+   ========================================================= */
+
+/*
+   DESKTOP:
+   Full name       | Organization
+   Email           | Email
+   Password        | Confirm password
+*/
+
+.saom-form {
+  display: grid;
+
+  grid-template-columns:
+    1fr 1fr;
+
+  column-gap: 13px;
+  row-gap: 12px;
+}
+
+.saom-field {
+  display: flex;
+  flex-direction: column;
+
+  gap: 6px;
+
+  min-width: 0;
+}
+
+/* Email gets entire row */
+
+.saom-field:nth-child(3) {
+  grid-column: 1 / -1;
+}
+
+/* =========================================================
+   LABELS
+   ========================================================= */
+
+.saom-field label {
+  padding-left: 2px;
+
+  font-family: var(--mono);
+
+  font-size: 8px;
+
+  letter-spacing: 0.13em;
+
+  color: #62697b;
+
+  text-transform: uppercase;
+}
+
+/* =========================================================
+   INPUTS
+   ========================================================= */
+
+.saom-input-wrap {
+  position: relative;
+
+  width: 100%;
+
+  border-radius: 9px;
+
+  border:
+    1px solid
+    rgba(255,255,255,0.075);
+
+  background:
+    rgba(255,255,255,0.025);
+
+  transition:
+    border-color 0.2s var(--ease),
+    background 0.2s var(--ease),
+    box-shadow 0.2s var(--ease);
+}
+
+.saom-input-wrap:hover {
+  border-color:
+    rgba(255,255,255,0.13);
+}
+
+.saom-input-wrap:focus-within {
+  border-color:
+    rgba(255,64,83,0.65);
+
+  background:
+    rgba(255,64,83,0.025);
+
+  box-shadow:
+    0 0 0 3px
+    rgba(255,64,83,0.075);
+}
+
+.saom-input-wrap input {
+  display: block;
+
+  width: 100%;
+
+  height: 43px;
+
+  padding: 0 13px;
+
+  border: none;
+  outline: none;
+
+  background: transparent;
+
+  color: var(--text);
+
+  font-family: var(--display);
+
+  font-size: 12.5px;
+
+  font-weight: 500;
+}
+
+.saom-input-wrap input::placeholder {
+  color: #50576b;
+}
+
+.saom-input-wrap.with-toggle input {
+  padding-right: 42px;
+}
+
+/* =========================================================
+   PASSWORD VISIBILITY
+   ========================================================= */
+
+.saom-toggle-visibility {
+  position: absolute;
+
+  top: 50%;
+  right: 5px;
+
+  width: 32px;
+  height: 32px;
+
+  transform: translateY(-50%);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border: none;
+
+  border-radius: 7px;
+
+  background: transparent;
+
+  color: #62697a;
+
+  cursor: pointer;
+}
+
+.saom-toggle-visibility:hover {
+  color: var(--text);
+
+  background:
+    rgba(255,255,255,0.045);
+}
+
+/* =========================================================
+   PASSWORD REQUIREMENTS
+   ========================================================= */
+
+.saom-requirements {
+  grid-column: 1 / -1;
+
+  display: grid;
+
+  grid-template-columns:
+    1fr 1fr;
+
+  gap: 6px 14px;
+
+  padding:
+    2px 2px 0;
+}
+
+.saom-requirement {
+  display: flex;
+  align-items: center;
+
+  gap: 6px;
+
+  font-size: 10px;
+
+  color: #555c6d;
+}
+
+.saom-requirement.is-valid {
+  color: var(--text);
+}
+
+.saom-requirement-dot {
+  width: 13px;
+  height: 13px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  flex-shrink: 0;
+
+  border:
+    1px solid
+    rgba(255,255,255,0.12);
+
+  border-radius: 50%;
+}
+
+.saom-requirement.is-valid
+.saom-requirement-dot {
+  color: var(--success);
+
+  border-color:
+    rgba(53,217,181,0.45);
+
+  background:
+    rgba(53,217,181,0.08);
+}
+
+.saom-requirement-dot svg {
+  width: 7px;
+  height: 7px;
+}
+
+/* =========================================================
+   ERROR / SUCCESS
+   ========================================================= */
+
+.saom-message {
+  grid-column: 1 / -1;
+
+  padding: 8px 11px;
+
+  border-radius: 7px;
+
+  font-size: 10.5px;
+
+  line-height: 1.4;
+}
+
+.saom-message.is-error {
+  color: #ffaaaa;
+
+  background:
+    rgba(255,97,97,0.065);
+
+  border:
+    1px solid
+    rgba(255,97,97,0.17);
+}
+
+.saom-message.is-success {
+  color: #9fe9d8;
+
+  background:
+    rgba(53,217,181,0.065);
+
+  border:
+    1px solid
+    rgba(53,217,181,0.17);
+}
+
+/* =========================================================
+   PRIMARY BUTTON
+   ========================================================= */
+
+.saom-btn {
+  grid-column: 1 / -1;
+
+  width: 100%;
+
+  min-height: 45px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 8px;
+
+  margin-top: 2px;
+
+  padding: 0 18px;
+
+  border: none;
+
+  border-radius: 9px;
+
+  background: var(--gradient);
+
+  color: white;
+
+  font-family: var(--display);
+
+  font-size: 12.5px;
+
+  font-weight: 700;
+
+  cursor: pointer;
+
+  box-shadow:
+    0 12px 28px
+    rgba(255,59,78,0.18);
+
+  transition:
+    filter 0.2s,
+    box-shadow 0.2s;
+}
+
+.saom-btn:hover:not(:disabled) {
+  filter: brightness(1.06);
+
+  box-shadow:
+    0 15px 34px
+    rgba(255,59,78,0.25);
+}
+
+.saom-btn:disabled {
+  opacity: 0.65;
+
+  cursor: not-allowed;
+}
+
+.saom-btn-arrow {
+  font-size: 16px;
+
+  transition:
+    transform 0.2s var(--ease);
+}
+
+.saom-btn:hover
+.saom-btn-arrow {
+  transform: translateX(3px);
+}
+
+/* =========================================================
+   SPINNER
+   ========================================================= */
+
+.saom-spinner {
+  width: 14px;
+  height: 14px;
+
+  border:
+    2px solid
+    rgba(255,255,255,0.3);
+
+  border-top-color: white;
+
+  border-radius: 50%;
+
+  animation:
+    saom-spin 0.7s linear infinite;
+}
+
+@keyframes saom-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* =========================================================
+   DIVIDER
+   ========================================================= */
+
+.saom-divider {
+  display: flex;
+  align-items: center;
+
+  gap: 10px;
+
+  margin: 13px 0 10px;
+
+  font-family: var(--mono);
+
+  font-size: 7.5px;
+
+  letter-spacing: 0.14em;
+
+  color: #4f5667;
+
+  text-transform: uppercase;
+}
+
+.saom-divider::before,
+.saom-divider::after {
+  content: "";
+
+  flex: 1;
+
+  height: 1px;
+
+  background:
+    rgba(255,255,255,0.07);
+}
+
+/* =========================================================
+   GOOGLE BUTTON
+   ========================================================= */
+
+.saom-btn-secondary {
+  width: 100%;
+
+  min-height: 42px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 9px;
+
+  padding: 0 18px;
+
+  border:
+    1px solid
+    rgba(255,255,255,0.09);
+
+  border-radius: 9px;
+
+  background:
+    rgba(255,255,255,0.022);
+
+  color: var(--text);
+
+  font-family: var(--display);
+
+  font-size: 11.5px;
+
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition:
+    background 0.2s,
+    border-color 0.2s;
+}
+
+.saom-btn-secondary:hover {
+  background:
+    rgba(255,255,255,0.045);
+
+  border-color:
+    rgba(255,255,255,0.16);
+}
+
+/* =========================================================
+   FOOTER
+   ========================================================= */
+
+.saom-footnote {
+  margin-top: 15px;
+
+  text-align: center;
+
+  font-family: var(--display);
+
+  font-size: 10.5px;
+
+  color: #5a6172;
+}
+
+.saom-footnote a,
+.saom-text-btn {
+  color: var(--red);
+
+  font-family: inherit;
+
+  font-size: inherit;
+
+  font-weight: 600;
+
+  text-decoration: none;
+
+  background: none;
+
+  border: none;
+
+  cursor: pointer;
+}
+
+.saom-footnote a:hover,
+.saom-text-btn:hover {
+  text-decoration: underline;
+}
+
+/* =========================================================
+   COPYRIGHT
+   ========================================================= */
+
+.saom-copyright {
+  text-align: center;
+
+  font-family: var(--mono);
+
+  font-size: 7px;
+
+  letter-spacing: 0.13em;
+
+  color: #3f4552;
+}
+
+/* =========================================================
+   OTP
+   ========================================================= */
+
+.saom-otp-input input {
+  height: 50px;
+
+  text-align: center;
+
+  font-family: var(--mono);
+
+  font-size: 20px;
+
+  letter-spacing: 0.45em;
+
+  padding-left: 20px;
+}
+
+/* =========================================================
+   TABLET
+   ========================================================= */
+
+@media (max-width: 1050px) {
+  .saom-brand-minimal {
+    padding: 35px;
+  }
+
+  .saom-stage {
+    padding-right: 30px;
+  }
+
+  .saom-card {
+    padding-left: 28px;
+    padding-right: 28px;
+  }
+}
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 850px) {
+
+  .saom-root {
+    grid-template-columns: 1fr;
+  }
+
+  .saom-brand-minimal {
+    display: none;
+  }
+
+  .saom-stage {
+    min-height: 100vh;
+
+    padding:
+      20px 14px;
+  }
+
+  .saom-stage-inner {
+    max-width: 500px;
+  }
+}
+
+/* =========================================================
+   SMALL MOBILE
+   ========================================================= */
+
+@media (max-width: 520px) {
+
+  .saom-card {
+    padding:
+      25px 20px 22px;
+
+    border-radius: 16px;
+  }
+
+  .saom-card::before {
+    left: 22px;
+    right: 22px;
+  }
+
+  .saom-card-header {
+    margin-bottom: 18px;
+  }
+
+  .saom-card-header h2 {
+    font-size: 22px;
+  }
+
+  /* Everything becomes one column */
+
+  .saom-form {
+    grid-template-columns: 1fr;
+
+    gap: 11px;
+  }
+
+  .saom-field:nth-child(3) {
+    grid-column: auto;
+  }
+
+  .saom-requirements {
+    grid-column: auto;
+
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .saom-message,
+  .saom-btn {
+    grid-column: auto;
+  }
+}
+
+/* =========================================================
+   VERY SHORT SCREENS
+   ========================================================= */
+
+@media (max-height: 750px) and (min-width: 851px) {
+
+  .saom-stage {
+    padding-top: 15px;
+    padding-bottom: 15px;
+  }
+
+  .saom-card {
+    padding-top: 21px;
+    padding-bottom: 18px;
+  }
+
+  .saom-steps {
+    margin-bottom: 16px;
+  }
+
+  .saom-card-header {
+    margin-bottom: 14px;
+  }
+
+  .saom-form {
+    row-gap: 9px;
+  }
+
+  .saom-input-wrap input {
+    height: 39px;
+  }
+
+  .saom-btn {
+    min-height: 41px;
+  }
+
+  .saom-btn-secondary {
+    min-height: 38px;
+  }
+
+  .saom-footnote {
+    margin-top: 10px;
+  }
+}
+
+/* =========================================================
+   REDUCED MOTION
+   ========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
+/* =========================================================
+   SIGN IN PAGE
+   ========================================================= */
+
+.signin-page .saom-stage {
+  padding-top: 30px;
+  padding-bottom: 30px;
+}
+
+.signin-card {
+  max-width: 500px;
+}
+
+/* Sign-in only has two fields,
+   so don't use Signup's 2-column layout */
+
+.signin-form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+/* =========================================================
+   SIGN IN OPTIONS
+   ========================================================= */
+
+.signin-options {
+  width: 100%;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  margin-top: -1px;
+
+  font-size: 10.5px;
+}
+
+/* =========================================================
+   CHECKBOX
+   ========================================================= */
+
+.saom-checkbox {
+  display: flex;
+  align-items: center;
+
+  gap: 7px;
+
+  color: #646b7c;
+
+  cursor: pointer;
+
+  user-select: none;
+}
+
+.saom-checkbox input {
+  appearance: none;
+
+  width: 14px;
+  height: 14px;
+
+  margin: 0;
+
+  border:
+    1px solid
+    rgba(255,255,255,0.14);
+
+  border-radius: 4px;
+
+  background:
+    rgba(255,255,255,0.025);
+
+  display: grid;
+  place-content: center;
+
+  cursor: pointer;
+
+  transition:
+    background 0.2s,
+    border-color 0.2s;
+}
+
+.saom-checkbox input:checked {
+  border-color: var(--red);
+
+  background: var(--red);
+}
+
+.saom-checkbox input:checked::after {
+  content: "";
+
+  width: 7px;
+  height: 4px;
+
+  border-left:
+    1.5px solid white;
+
+  border-bottom:
+    1.5px solid white;
+
+  transform:
+    rotate(-45deg)
+    translate(0.5px, -1px);
+}
+
+.signin-options .saom-link {
+  color: #777e90;
+
+  font-size: 10.5px;
+
+  transition:
+    color 0.2s;
+}
+
+.signin-options .saom-link:hover {
+  color: var(--red);
+}
+
+/* =========================================================
+   SIGN IN CARD SPACING
+   ========================================================= */
+
+.signin-card .saom-card-header {
+  margin-bottom: 24px;
+}
+
+.signin-card .saom-card-header h2 {
+  font-size: 27px;
+}
+
+.signin-card .saom-card-header p {
+  font-size: 12px;
+}
+
+/* Slightly taller inputs for sign in */
+
+.signin-card .saom-input-wrap input {
+  height: 45px;
+}
+
+/* Button */
+
+.signin-card .saom-btn {
+  min-height: 46px;
+
+  margin-top: 3px;
+}
+
+/* Google */
+
+.signin-card .saom-btn-secondary {
+  min-height: 43px;
+}
+
+/* Footer */
+
+.signin-footnote {
+  margin-top: 17px;
+}
+
+/* =========================================================
+   SIGN IN — SHORT DESKTOP SCREENS
+   ========================================================= */
+
+@media (max-height: 750px) and (min-width: 851px) {
+
+  .signin-page .saom-stage {
+    padding-top: 15px;
+    padding-bottom: 15px;
+  }
+
+  .signin-card {
+    padding-top: 24px;
+    padding-bottom: 21px;
+  }
+
+  .signin-card .saom-card-header {
+    margin-bottom: 18px;
+  }
+
+  .signin-card .saom-steps {
+    margin-bottom: 18px;
+  }
+
+  .signin-form {
+    gap: 11px;
+  }
+
+  .signin-card .saom-input-wrap input {
+    height: 40px;
+  }
+
+  .signin-card .saom-btn {
+    min-height: 42px;
+  }
+
+  .signin-card .saom-btn-secondary {
+    min-height: 39px;
+  }
+}
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 850px) {
+
+  .signin-page .saom-stage {
+    padding:
+      20px 14px;
+  }
+
+  .signin-card {
+    max-width: 500px;
+  }
+
+}
+/* =========================================================
+   FORGOT PASSWORD
+   ========================================================= */
+
+.forget-page .saom-stage {
+  padding-top: 30px;
+  padding-bottom: 30px;
+}
+
+.forget-card {
+  max-width: 500px;
+}
+
+.forget-card .saom-card-header {
+  margin-bottom: 25px;
+}
+
+.forget-card .saom-card-header h2 {
+  font-size: 27px;
+}
+
+.forget-card .saom-card-header p {
+  max-width: 400px;
+
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* =========================================================
+   FORGOT FORM
+   ========================================================= */
+
+.forget-form {
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 14px;
+}
+
+.forget-form .saom-field {
+  width: 100%;
+}
+
+.forget-form .saom-input-wrap input {
+  height: 46px;
+}
+
+/* =========================================================
+   BACK TO SIGN IN
+   ========================================================= */
+
+.forget-back {
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  gap: 5px;
+
+  margin-top: 19px;
+
+  font-family: var(--display);
+
+  font-size: 10.5px;
+
+  color: #5d6475;
+}
+
+.forget-back a {
+  color: var(--red);
+
+  font-weight: 600;
+
+  text-decoration: none;
+
+  transition:
+    color 0.2s ease;
+}
+
+.forget-back a:hover {
+  color: var(--red-light);
+
+  text-decoration: underline;
+}
+
+/* =========================================================
+   SECURITY NOTE
+   ========================================================= */
+
+.forget-security-note {
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  gap: 7px;
+
+  max-width: 360px;
+
+  margin: 18px auto 0;
+
+  padding-top: 15px;
+
+  border-top:
+    1px solid
+    rgba(255,255,255,0.055);
+
+  font-family: var(--display);
+
+  font-size: 9px;
+
+  line-height: 1.5;
+
+  text-align: center;
+
+  color: #505768;
+}
+
+.forget-security-dot {
+  width: 5px;
+  height: 5px;
+
+  flex-shrink: 0;
+
+  border-radius: 50%;
+
+  background: var(--success);
+
+  box-shadow:
+    0 0 10px
+    rgba(53,217,181,0.35);
+}
+
+/* =========================================================
+   SHORT DESKTOP SCREENS
+   ========================================================= */
+
+@media (max-height: 750px) and (min-width: 851px) {
+
+  .forget-page .saom-stage {
+    padding-top: 15px;
+    padding-bottom: 15px;
+  }
+
+  .forget-card {
+    padding-top: 24px;
+    padding-bottom: 21px;
+  }
+
+  .forget-card .saom-card-header {
+    margin-bottom: 18px;
+  }
+
+  .forget-form {
+    gap: 11px;
+  }
+
+  .forget-form .saom-input-wrap input {
+    height: 41px;
+  }
+
+  .forget-back {
+    margin-top: 12px;
+  }
+
+  .forget-security-note {
+    margin-top: 12px;
+    padding-top: 11px;
+  }
+}
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 850px) {
+
+  .forget-page .saom-stage {
+    padding:
+      20px 14px;
+  }
+
+  .forget-card {
+    max-width: 500px;
+  }
+}
+/* =========================================================
+   AUTH ROUTE SLIDE TRANSITION
+   ---------------------------------------------------------
+   This layer sits ABOVE the existing auth card temporarily.
+   It does not alter the existing Sign In / Sign Up UI.
+   ========================================================= */
+
+.saom-card {
+  position: relative;
+  overflow: hidden;
+}
+
+/* ---------------------------------------------------------
+   PANEL
+   --------------------------------------------------------- */
+
+.auth-slide-panel {
+  position: absolute;
+
+  top: 0;
+  bottom: 0;
+
+  width: 50%;
+
+  z-index: 100;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background:
+    linear-gradient(
+      135deg,
+      #ff5365 0%,
+      #d11f35 100%
+    );
+
+  box-shadow:
+    0 0 60px
+    rgba(255, 59, 78, 0.22);
+
+  pointer-events: all;
+
+  will-change: transform;
+}
+
+/* Sign In → Sign Up */
+
+.auth-slide-to-signup {
+  right: 0;
+
+  border-radius:
+    18px 0 0 18px;
+}
+
+/* Sign Up → Sign In */
+
+.auth-slide-to-signin {
+  left: 0;
+
+  border-radius:
+    0 18px 18px 0;
+}
+
+/* ---------------------------------------------------------
+   PANEL CONTENT
+   --------------------------------------------------------- */
+
+.auth-slide-content {
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: center;
+
+  justify-content: center;
+
+  gap: 13px;
+
+  padding: 25px;
+
+  text-align: center;
+
+  color: #ffffff;
+}
+
+.auth-slide-brand {
+  font-family:
+    "Manrope",
+    -apple-system,
+    BlinkMacSystemFont,
+    sans-serif;
+
+  font-size: 18px;
+
+  font-weight: 800;
+
+  letter-spacing: -0.035em;
+}
+
+.auth-slide-line {
+  width: 28px;
+  height: 1px;
+
+  background:
+    rgba(255,255,255,0.55);
+}
+
+.auth-slide-status {
+  font-family:
+    "JetBrains Mono",
+    monospace;
+
+  font-size: 7px;
+
+  font-weight: 500;
+
+  letter-spacing: 0.18em;
+
+  white-space: nowrap;
+
+  color:
+    rgba(255,255,255,0.75);
+}
+
+/* ---------------------------------------------------------
+   SUBTLE CONTENT FADE
+   --------------------------------------------------------- */
+
+.auth-slide-panel::after {
+  content: "";
+
+  position: absolute;
+
+  inset: 0;
+
+  pointer-events: none;
+
+  background:
+    radial-gradient(
+      circle at 50% 50%,
+      rgba(255,255,255,0.10),
+      transparent 60%
+    );
+}
+
+/* ---------------------------------------------------------
+   MOBILE
+   --------------------------------------------------------- */
+
+@media (max-width: 850px) {
+
+  .auth-slide-panel {
+    width: 100%;
+
+    border-radius: 16px;
+  }
+
+  .auth-slide-to-signup,
+  .auth-slide-to-signin {
+    left: 0;
+    right: auto;
+  }
+
+  .auth-slide-brand {
+    font-size: 16px;
+  }
+
+}

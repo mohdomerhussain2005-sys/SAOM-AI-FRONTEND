@@ -1,37 +1,60 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import "./App.css";
 
+// Pages
+// import Home from "./pages/Home";
+// import Home1 from "./pages/Home1";
 import Signin from "./pages/Signin";
 import Signup from "./pages/Signup";
 import Forget from "./pages/Forget";
-import Home from "./pages/Home";
-import Home1 from "./pages/Home1";
+
+// Global styles
+import "./App.css";
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
 
-        {/* Landing Page */}
-        <Route path="/" element={<Home1 />} />
+        {/* =========================
+            HOME
+            Temporarily disabled
+        ========================= */}
 
-        {/* Sign In */}
-        <Route path="/signin" element={<Signin />} />
+        {/* <Route path="/" element={<Home />} /> */}
 
-        {/* Sign Up + OTP */}
-        <Route path="/signup" element={<Signup />} />
+        {/* <Route path="/home" element={<Home />} /> */}
 
-        {/* Forgot Password + OTP + Reset Password */}
-        <Route path="/forgot-password" element={<Forget />} />
+        {/* <Route path="/home1" element={<Home1 />} /> */}
 
-        {/* Dashboard */}
-        <Route path="/dashboard" element={<Home />} />
 
-        {/* Keep /home working */}
-        <Route path="/home" element={<Home />} />
+        {/* =========================
+            AUTHENTICATION
+        ========================= */}
 
-        {/* Unknown routes */}
-        <Route path="*" element={<Navigate to="/" replace />} />
+        <Route
+          path="/signin"
+          element={<Signin />}
+        />
+
+        <Route
+          path="/signup"
+          element={<Signup />}
+        />
+
+        <Route
+          path="/forgot-password"
+          element={<Forget />}
+        />
+
+
+        {/* =========================
+            FALLBACK
+        ========================= */}
+
+        <Route
+          path="*"
+          element={<Navigate to="/signin" replace />}
+        />
 
       </Routes>
     </BrowserRouter>

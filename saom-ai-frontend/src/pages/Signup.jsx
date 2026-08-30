@@ -1,5 +1,67 @@
-import { useState } from "react";
+ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import "../styles/saom-auth.css";
+
+const IconEye = ({ open }) => (
+  <svg width="17" height="17" viewBox="0 0 24 24" fill="none">
+    {open ? (
+      <>
+        <path
+          d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7-10-7-10-7Z"
+          stroke="currentColor"
+          strokeWidth="1.6"
+        />
+        <circle
+          cx="12"
+          cy="12"
+          r="3"
+          stroke="currentColor"
+          strokeWidth="1.6"
+        />
+      </>
+    ) : (
+      <path
+        d="M3 3l18 18M10.6 10.6a3 3 0 0 0 4.2 4.2M6.6 6.7C4.5 8.1 3 10 3 10s3.6 7 10 7c1.6 0 3-.4 4.2-1M9.9 4.2C10.6 4.1 11.3 4 12 4c6.4 0 10 7 10 7a15 15 0 0 1-2.2 3"
+        stroke="currentColor"
+        strokeWidth="1.6"
+        strokeLinecap="round"
+      />
+    )}
+  </svg>
+);
+
+const IconGoogle = () => (
+  <svg width="17" height="17" viewBox="0 0 24 24">
+    <path
+      fill="#4285F4"
+      d="M23.49 12.27c0-.82-.07-1.6-.2-2.36H12v4.47h6.47c-.28 1.5-1.13 2.77-2.4 3.62v3h3.88c2.27-2.09 3.54-5.17 3.54-8.73Z"
+    />
+    <path
+      fill="#34A853"
+      d="M12 24c3.24 0 5.96-1.07 7.95-2.9l-3.88-3c-1.08.72-2.45 1.15-4.07 1.15-3.13 0-5.78-2.11-6.73-4.96H1.27v3.1C3.25 21.3 7.3 24 12 24Z"
+    />
+    <path
+      fill="#FBBC05"
+      d="M5.27 14.29A7.2 7.2 0 0 1 4.89 12c0-.8.14-1.57.38-2.29v-3.1H1.27A11.98 11.98 0 0 0 0 12c0 1.93.46 3.76 1.27 5.39l4-3.1Z"
+    />
+    <path
+      fill="#EA4335"
+      d="M12 4.75c1.76 0 3.34.6 4.59 1.79l3.44-3.44C17.95 1.19 15.24 0 12 0 7.3 0 3.25 2.7 1.27 6.61l4 3.1C6.22 6.86 8.87 4.75 12 4.75Z"
+    />
+  </svg>
+);
+
+const IconCheck = () => (
+  <svg viewBox="0 0 10 8" fill="none">
+    <path
+      d="M1 4l2.5 2.5L9 1"
+      stroke="currentColor"
+      strokeWidth="1.6"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+  </svg>
+);
 
 function Signup() {
   const [step, setStep] = useState("signup");
@@ -9,16 +71,12 @@ function Signup() {
   const [email, setEmail] = useState("");
 
   const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] =
-    useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
 
   const [otp, setOtp] = useState("");
 
-  const [showPassword, setShowPassword] =
-    useState(false);
-
-  const [showConfirmPassword, setShowConfirmPassword] =
-    useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -36,10 +94,6 @@ function Signup() {
     passwordRequirements.uppercase &&
     passwordRequirements.lowercase &&
     passwordRequirements.number;
-
-  // ==========================================
-  // CREATE ACCOUNT + SEND OTP
-  // ==========================================
 
   const handleRegister = async (e) => {
     e.preventDefault();
@@ -73,7 +127,6 @@ function Signup() {
     try {
       setLoading(true);
 
-      // 1. Create account
       const registerResponse = await fetch(
         "http://localhost:5000/api/auth/register",
         {
@@ -90,17 +143,14 @@ function Signup() {
         }
       );
 
-      const registerData =
-        await registerResponse.json();
+      const registerData = await registerResponse.json();
 
       if (!registerResponse.ok) {
         throw new Error(
-          registerData.message ||
-            "Unable to create account."
+          registerData.message || "Unable to create account."
         );
       }
 
-      // 2. Send OTP
       const otpResponse = await fetch(
         "http://localhost:5000/api/auth/send-otp",
         {
@@ -118,28 +168,18 @@ function Signup() {
 
       if (!otpResponse.ok) {
         throw new Error(
-          otpData.message ||
-            "Unable to send verification code."
+          otpData.message || "Unable to send verification code."
         );
       }
 
-      setMessage(
-        "Verification code sent to your email."
-      );
-
+      setMessage("Verification code sent to your email.");
       setStep("otp");
     } catch (err) {
-      setError(
-        err.message || "Something went wrong."
-      );
+      setError(err.message || "Something went wrong.");
     } finally {
       setLoading(false);
     }
   };
-
-  // ==========================================
-  // VERIFY OTP + LOGIN
-  // ==========================================
 
   const handleVerifyOtp = async (e) => {
     e.preventDefault();
@@ -148,16 +188,13 @@ function Signup() {
     setMessage("");
 
     if (otp.length !== 6) {
-      setError(
-        "Please enter the 6-digit verification code."
-      );
+      setError("Please enter the 6-digit verification code.");
       return;
     }
 
     try {
       setLoading(true);
 
-      // 1. Verify OTP
       const verifyResponse = await fetch(
         "http://localhost:5000/api/auth/verify-otp",
         {
@@ -172,21 +209,16 @@ function Signup() {
         }
       );
 
-      const verifyData =
-        await verifyResponse.json();
+      const verifyData = await verifyResponse.json();
 
       if (!verifyResponse.ok) {
         throw new Error(
-          verifyData.message ||
-            "Invalid verification code."
+          verifyData.message || "Invalid verification code."
         );
       }
 
-      setMessage(
-        "Email verified. Signing you in..."
-      );
+      setMessage("Email verified. Signing you in...");
 
-      // 2. Login automatically
       const loginResponse = await fetch(
         "http://localhost:5000/api/auth/login",
         {
@@ -201,8 +233,7 @@ function Signup() {
         }
       );
 
-      const loginData =
-        await loginResponse.json();
+      const loginData = await loginResponse.json();
 
       if (!loginResponse.ok) {
         throw new Error(
@@ -211,489 +242,643 @@ function Signup() {
         );
       }
 
-      // 3. Store JWT + user
-      localStorage.setItem(
-        "saom_token",
-        loginData.token
-      );
-
+      localStorage.setItem("saom_token", loginData.token);
       localStorage.setItem(
         "saom_user",
         JSON.stringify(loginData.user)
       );
 
-      // 4. Redirect to Dashboard
       setTimeout(() => {
         window.location.href = "/dashboard";
       }, 700);
-
     } catch (err) {
-      setError(
-        err.message || "Verification failed."
-      );
+      setError(err.message || "Verification failed.");
     } finally {
       setLoading(false);
     }
   };
 
+  const handleGoogleAuth = () => {
+    console.warn(
+      "Google sign-in is not yet connected to a backend endpoint."
+    );
+  };
+
   return (
-    <div className="signin-page">
+    <div className="saom-root theme-red">
+      <div className="saom-ambient" />
+      <div className="saom-grid" />
 
-      {/* LEFT BRANDING */}
+      {/* =====================================================
+          LEFT — MINIMAL BRAND STATEMENT
+          ===================================================== */}
 
-      <motion.div
-        className="signin-brand"
-        initial={{
-          opacity: 0,
-          x: -30,
-        }}
-        animate={{
-          opacity: 1,
-          x: 0,
-        }}
+      <motion.section
+        className="saom-brand-minimal"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
         transition={{
-          duration: 0.6,
+          duration: 0.8,
+          ease: [0.16, 1, 0.3, 1],
         }}
       >
-        <div className="brand-icon">
-          🛡
+        <div className="saom-minimal-content">
+          <div className="saom-minimal-label">
+            SAOM-AI
+          </div>
+
+          <h1>
+            Security that
+            <span> thinks ahead.</span>
+          </h1>
+
+          <p>
+            Autonomous security operations built to detect,
+            understand, and respond before threats become
+            incidents.
+          </p>
+
+          <div className="saom-minimal-line">
+            <span />
+            <small>INTELLIGENT · AUTONOMOUS · SECURE</small>
+          </div>
         </div>
+      </motion.section>
 
-        <h1>SAOM-AI</h1>
+      {/* =====================================================
+          RIGHT — SIGN UP / OTP
+          ===================================================== */}
 
-        <p>
-          Next-generation cybersecurity orchestration
-          powered by autonomous intelligence.
-        </p>
-      </motion.div>
+      <section className="saom-stage">
+        <motion.div
+          className="saom-stage-inner"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{
+            duration: 0.65,
+            delay: 0.1,
+            ease: [0.16, 1, 0.3, 1],
+          }}
+        >
+          <motion.div
+            className="saom-card"
+            initial={{
+              opacity: 0,
+              scale: 0.97,
+            }}
+            animate={{
+              opacity: 1,
+              scale: 1,
+            }}
+            transition={{
+              duration: 0.55,
+              delay: 0.15,
+              ease: [0.16, 1, 0.3, 1],
+            }}
+          >
+            {/* Progress */}
 
-      {/* RIGHT SIDE */}
+            <div className="saom-steps">
+              <StepMeter
+                label="01 Account"
+                state={
+                  step === "signup" ? "active" : "done"
+                }
+              />
 
-      <motion.div
-        className="signin-container"
-        initial={{
-          opacity: 0,
-          y: 25,
-        }}
-        animate={{
-          opacity: 1,
-          y: 0,
-        }}
-        transition={{
-          duration: 0.6,
-          delay: 0.1,
-        }}
-      >
+              <StepMeter
+                label="02 Verify"
+                state={
+                  step === "otp"
+                    ? "active"
+                    : "pending"
+                }
+              />
 
-        <div className="signin-card">
+              <StepMeter
+                label="03 Access"
+                state="pending"
+              />
+            </div>
 
-          <AnimatePresence mode="wait">
+            <AnimatePresence mode="wait">
 
-            {/* ======================================
-                SIGN UP
-                ====================================== */}
+              {/* =================================================
+                  SIGNUP
+                  ================================================= */}
 
-            {step === "signup" && (
-              <motion.div
-                key="signup"
-                initial={{
-                  opacity: 0,
-                  x: 20,
-                }}
-                animate={{
-                  opacity: 1,
-                  x: 0,
-                }}
-                exit={{
-                  opacity: 0,
-                  x: -20,
-                }}
-              >
+              {step === "signup" && (
+                <motion.div
+                  key="signup"
+                  initial={{
+                    opacity: 0,
+                    x: 20,
+                  }}
+                  animate={{
+                    opacity: 1,
+                    x: 0,
+                  }}
+                  exit={{
+                    opacity: 0,
+                    x: -20,
+                  }}
+                  transition={{
+                    duration: 0.35,
+                  }}
+                >
+                  <div className="saom-card-header">
+                    <div className="saom-card-kicker">
+                      CREATE ACCOUNT
+                    </div>
 
-                <div className="signin-header">
-                  <h2>Create your account</h2>
+                    <h2>
+                      Welcome to
+                      <span> SAOM-AI</span>
+                    </h2>
 
-                  <p>
-                    Start securing your digital
-                    environment with SAOM-AI.
-                  </p>
-                </div>
-
-                <form onSubmit={handleRegister}>
-
-                  {/* FULL NAME */}
-
-                  <div className="form-group">
-                    <label htmlFor="fullName">
-                      FULL NAME
-                    </label>
-
-                    <input
-                      id="fullName"
-                      type="text"
-                      placeholder="Your full name"
-                      value={fullName}
-                      onChange={(e) =>
-                        setFullName(e.target.value)
-                      }
-                      autoComplete="name"
-                    />
+                    <p>
+                      Create your secure workspace to begin
+                      monitoring your environment.
+                    </p>
                   </div>
 
-                  {/* ORGANIZATION */}
-
-                  <div className="form-group">
-                    <label htmlFor="organization">
-                      ORGANIZATION
-                    </label>
-
-                    <input
-                      id="organization"
-                      type="text"
-                      placeholder="Your organization"
-                      value={organization}
-                      onChange={(e) =>
-                        setOrganization(
-                          e.target.value
-                        )
-                      }
-                      autoComplete="organization"
-                    />
-                  </div>
-
-                  {/* EMAIL */}
-
-                  <div className="form-group">
-                    <label htmlFor="signup-email">
-                      EMAIL ADDRESS
-                    </label>
-
-                    <input
-                      id="signup-email"
-                      type="email"
-                      placeholder="you@example.com"
-                      value={email}
-                      onChange={(e) =>
-                        setEmail(e.target.value)
-                      }
-                      autoComplete="email"
-                    />
-                  </div>
-
-                  {/* PASSWORD */}
-
-                  <div className="form-group">
-                    <label htmlFor="signup-password">
-                      PASSWORD
-                    </label>
-
-                    <div className="password-wrapper">
-
-                      <input
-                        id="signup-password"
-                        type={
-                          showPassword
-                            ? "text"
-                            : "password"
-                        }
-                        placeholder="Create a password"
-                        value={password}
-                        onChange={(e) =>
-                          setPassword(
-                            e.target.value
-                          )
-                        }
-                        autoComplete="new-password"
-                      />
-
-                      <button
-                        type="button"
-                        className="password-toggle"
-                        onClick={() =>
-                          setShowPassword(
-                            !showPassword
-                          )
-                        }
-                      >
-                        {showPassword
-                          ? "◉"
-                          : "◌"}
-                      </button>
-
-                    </div>
-                  </div>
-
-                  {/* CONFIRM PASSWORD */}
-
-                  <div className="form-group">
-                    <label htmlFor="confirm-password">
-                      CONFIRM PASSWORD
-                    </label>
-
-                    <div className="password-wrapper">
-
-                      <input
-                        id="confirm-password"
-                        type={
-                          showConfirmPassword
-                            ? "text"
-                            : "password"
-                        }
-                        placeholder="Confirm password"
-                        value={confirmPassword}
-                        onChange={(e) =>
-                          setConfirmPassword(
-                            e.target.value
-                          )
-                        }
-                        autoComplete="new-password"
-                      />
-
-                      <button
-                        type="button"
-                        className="password-toggle"
-                        onClick={() =>
-                          setShowConfirmPassword(
-                            !showConfirmPassword
-                          )
-                        }
-                      >
-                        {showConfirmPassword
-                          ? "◉"
-                          : "◌"}
-                      </button>
-
-                    </div>
-                  </div>
-
-                  {/* PASSWORD REQUIREMENTS */}
-
-                  {password && (
-                    <div className="password-requirements">
-
-                      <div
-                        className={
-                          passwordRequirements.length
-                            ? "requirement valid"
-                            : "requirement"
-                        }
-                      >
-                        {passwordRequirements.length
-                          ? "✓"
-                          : "○"}{" "}
-                        8+ characters
-                      </div>
-
-                      <div
-                        className={
-                          passwordRequirements.uppercase
-                            ? "requirement valid"
-                            : "requirement"
-                        }
-                      >
-                        {passwordRequirements.uppercase
-                          ? "✓"
-                          : "○"}{" "}
-                        Uppercase letter
-                      </div>
-
-                      <div
-                        className={
-                          passwordRequirements.lowercase
-                            ? "requirement valid"
-                            : "requirement"
-                        }
-                      >
-                        {passwordRequirements.lowercase
-                          ? "✓"
-                          : "○"}{" "}
-                        Lowercase letter
-                      </div>
-
-                      <div
-                        className={
-                          passwordRequirements.number
-                            ? "requirement valid"
-                            : "requirement"
-                        }
-                      >
-                        {passwordRequirements.number
-                          ? "✓"
-                          : "○"}{" "}
-                        Number
-                      </div>
-
-                    </div>
-                  )}
-
-                  {/* ERROR */}
-
-                  {error && (
-                    <div className="signin-error">
-                      {error}
-                    </div>
-                  )}
-
-                  {/* SUCCESS */}
-
-                  {message && (
-                    <div className="signup-message">
-                      {message}
-                    </div>
-                  )}
-
-                  {/* BUTTON */}
-
-                  <motion.button
-                    type="submit"
-                    className="signin-button"
-                    disabled={loading}
-                    whileHover={{
-                      scale: loading ? 1 : 1.01,
-                    }}
-                    whileTap={{
-                      scale: loading ? 1 : 0.98,
-                    }}
+                  <form
+                    className="saom-form"
+                    onSubmit={handleRegister}
+                    noValidate
                   >
-                    {loading
-                      ? "CREATING ACCOUNT..."
-                      : "CREATE ACCOUNT"}
+                    <div className="saom-field">
+                      <label htmlFor="fullName">
+                        Full name
+                      </label>
 
-                    {!loading && <span>→</span>}
-                  </motion.button>
+                      <div className="saom-input-wrap">
+                        <input
+                          id="fullName"
+                          type="text"
+                          placeholder="Your full name"
+                          value={fullName}
+                          onChange={(e) =>
+                            setFullName(e.target.value)
+                          }
+                          autoComplete="name"
+                        />
+                      </div>
+                    </div>
 
-                </form>
+                    <div className="saom-field">
+                      <label htmlFor="organization">
+                        Organization
+                      </label>
 
-                <div className="signup-text">
-                  Already have an account?{" "}
+                      <div className="saom-input-wrap">
+                        <input
+                          id="organization"
+                          type="text"
+                          placeholder="Your organization"
+                          value={organization}
+                          onChange={(e) =>
+                            setOrganization(e.target.value)
+                          }
+                          autoComplete="organization"
+                        />
+                      </div>
+                    </div>
 
-                  <a href="/signin">
-                    Sign In
-                  </a>
-                </div>
+                    <div className="saom-field">
+                      <label htmlFor="signup-email">
+                        Email address
+                      </label>
 
-              </motion.div>
-            )}
+                      <div className="saom-input-wrap">
+                        <input
+                          id="signup-email"
+                          type="email"
+                          placeholder="you@example.com"
+                          value={email}
+                          onChange={(e) =>
+                            setEmail(e.target.value)
+                          }
+                          autoComplete="email"
+                        />
+                      </div>
+                    </div>
 
-            {/* ======================================
-                OTP
-                ====================================== */}
+                    <div className="saom-field">
+                      <label htmlFor="signup-password">
+                        Password
+                      </label>
 
-            {step === "otp" && (
-              <motion.div
-                key="otp"
-                initial={{
-                  opacity: 0,
-                  x: 20,
-                }}
-                animate={{
-                  opacity: 1,
-                  x: 0,
-                }}
-                exit={{
-                  opacity: 0,
-                  x: -20,
-                }}
-              >
+                      <div className="saom-input-wrap with-toggle">
+                        <input
+                          id="signup-password"
+                          type={
+                            showPassword
+                              ? "text"
+                              : "password"
+                          }
+                          placeholder="Create a password"
+                          value={password}
+                          onChange={(e) =>
+                            setPassword(e.target.value)
+                          }
+                          autoComplete="new-password"
+                        />
 
-                <div className="signin-header">
-                  <h2>Verify your email</h2>
+                        <button
+                          type="button"
+                          className="saom-toggle-visibility"
+                          onClick={() =>
+                            setShowPassword(
+                              (v) => !v
+                            )
+                          }
+                          aria-label={
+                            showPassword
+                              ? "Hide password"
+                              : "Show password"
+                          }
+                        >
+                          <IconEye
+                            open={showPassword}
+                          />
+                        </button>
+                      </div>
+                    </div>
 
-                  <p>
-                    Enter the 6-digit verification
-                    code sent to:
-                    <br />
-                    <strong>{email}</strong>
-                  </p>
-                </div>
+                    <div className="saom-field">
+                      <label htmlFor="confirm-password">
+                        Confirm password
+                      </label>
 
-                <form onSubmit={handleVerifyOtp}>
+                      <div className="saom-input-wrap with-toggle">
+                        <input
+                          id="confirm-password"
+                          type={
+                            showConfirmPassword
+                              ? "text"
+                              : "password"
+                          }
+                          placeholder="Confirm password"
+                          value={confirmPassword}
+                          onChange={(e) =>
+                            setConfirmPassword(
+                              e.target.value
+                            )
+                          }
+                          autoComplete="new-password"
+                        />
 
-                  <div className="form-group">
-                    <label htmlFor="signup-otp">
-                      VERIFICATION CODE
-                    </label>
+                        <button
+                          type="button"
+                          className="saom-toggle-visibility"
+                          onClick={() =>
+                            setShowConfirmPassword(
+                              (v) => !v
+                            )
+                          }
+                          aria-label={
+                            showConfirmPassword
+                              ? "Hide password"
+                              : "Show password"
+                          }
+                        >
+                          <IconEye
+                            open={
+                              showConfirmPassword
+                            }
+                          />
+                        </button>
+                      </div>
+                    </div>
 
-                    <input
-                      id="signup-otp"
-                      type="text"
-                      inputMode="numeric"
-                      maxLength="6"
-                      placeholder="Enter 6-digit code"
-                      value={otp}
-                      onChange={(e) =>
-                        setOtp(
-                          e.target.value.replace(
-                            /\D/g,
-                            ""
-                          )
-                        )
-                      }
-                    />
+                    <AnimatePresence>
+                      {password && (
+                        <motion.div
+                          className="saom-requirements"
+                          initial={{
+                            opacity: 0,
+                            height: 0,
+                          }}
+                          animate={{
+                            opacity: 1,
+                            height: "auto",
+                          }}
+                          exit={{
+                            opacity: 0,
+                            height: 0,
+                          }}
+                        >
+                          <Requirement
+                            ok={
+                              passwordRequirements.length
+                            }
+                            text="8+ characters"
+                          />
+
+                          <Requirement
+                            ok={
+                              passwordRequirements.uppercase
+                            }
+                            text="Uppercase letter"
+                          />
+
+                          <Requirement
+                            ok={
+                              passwordRequirements.lowercase
+                            }
+                            text="Lowercase letter"
+                          />
+
+                          <Requirement
+                            ok={
+                              passwordRequirements.number
+                            }
+                            text="Number"
+                          />
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+
+                    {error && (
+                      <motion.div
+                        className="saom-message is-error"
+                        initial={{
+                          opacity: 0,
+                          y: -5,
+                        }}
+                        animate={{
+                          opacity: 1,
+                          y: 0,
+                        }}
+                      >
+                        {error}
+                      </motion.div>
+                    )}
+
+                    {message && (
+                      <motion.div
+                        className="saom-message is-success"
+                        initial={{
+                          opacity: 0,
+                          y: -5,
+                        }}
+                        animate={{
+                          opacity: 1,
+                          y: 0,
+                        }}
+                      >
+                        {message}
+                      </motion.div>
+                    )}
+
+                    <motion.button
+                      type="submit"
+                      className="saom-btn"
+                      disabled={loading}
+                      whileHover={{
+                        scale: loading ? 1 : 1.01,
+                      }}
+                      whileTap={{
+                        scale: loading ? 1 : 0.98,
+                      }}
+                    >
+                      {loading ? (
+                        <>
+                          <span className="saom-spinner" />
+                          Creating account...
+                        </>
+                      ) : (
+                        <>
+                          Create account
+                          <span className="saom-btn-arrow">
+                            →
+                          </span>
+                        </>
+                      )}
+                    </motion.button>
+                  </form>
+
+                  <div className="saom-divider">
+                    Or continue with
                   </div>
-
-                  {error && (
-                    <div className="signin-error">
-                      {error}
-                    </div>
-                  )}
-
-                  {message && (
-                    <div className="signup-message">
-                      {message}
-                    </div>
-                  )}
-
-                  <motion.button
-                    type="submit"
-                    className="signin-button"
-                    disabled={loading}
-                    whileHover={{
-                      scale: loading ? 1 : 1.01,
-                    }}
-                    whileTap={{
-                      scale: loading ? 1 : 0.98,
-                    }}
-                  >
-                    {loading
-                      ? "VERIFYING..."
-                      : "VERIFY EMAIL"}
-
-                    {!loading && <span>→</span>}
-                  </motion.button>
-
-                </form>
-
-                <div className="signup-text">
-                  Wrong email?{" "}
 
                   <button
                     type="button"
-                    className="text-button"
-                    onClick={() => {
-                      setStep("signup");
-                      setOtp("");
-                      setError("");
-                      setMessage("");
-                    }}
+                    className="saom-btn-secondary"
+                    onClick={handleGoogleAuth}
                   >
-                    Go back
+                    <IconGoogle />
+                    Continue with Google
                   </button>
-                </div>
 
-              </motion.div>
-            )}
+                  <div className="saom-footnote">
+                    Already have an account?{" "}
+                    <a href="/signin">
+                      Sign in
+                    </a>
+                  </div>
+                </motion.div>
+              )}
 
-          </AnimatePresence>
+              {/* =================================================
+                  OTP
+                  ================================================= */}
 
-        </div>
+              {step === "otp" && (
+                <motion.div
+                  key="otp"
+                  initial={{
+                    opacity: 0,
+                    x: 20,
+                  }}
+                  animate={{
+                    opacity: 1,
+                    x: 0,
+                  }}
+                  exit={{
+                    opacity: 0,
+                    x: -20,
+                  }}
+                >
+                  <div className="saom-card-header">
+                    <div className="saom-card-kicker">
+                      EMAIL VERIFICATION
+                    </div>
 
-        <div className="copyright">
-          © 2026 SAOM-AI SECURITY SYSTEMS
-        </div>
+                    <h2>
+                      Verify your
+                      <span> identity.</span>
+                    </h2>
 
-      </motion.div>
+                    <p>
+                      Enter the 6-digit verification code
+                      sent to{" "}
+                      <strong>{email}</strong>
+                    </p>
+                  </div>
 
+                  <form
+                    className="saom-form"
+                    onSubmit={handleVerifyOtp}
+                    noValidate
+                  >
+                    <div className="saom-field">
+                      <label htmlFor="signup-otp">
+                        Verification code
+                      </label>
+
+                      <div className="saom-input-wrap saom-otp-input">
+                        <input
+                          id="signup-otp"
+                          type="text"
+                          inputMode="numeric"
+                          maxLength="6"
+                          placeholder="000000"
+                          value={otp}
+                          onChange={(e) =>
+                            setOtp(
+                              e.target.value.replace(
+                                /\D/g,
+                                ""
+                              )
+                            )
+                          }
+                        />
+                      </div>
+                    </div>
+
+                    {error && (
+                      <motion.div
+                        className="saom-message is-error"
+                        initial={{
+                          opacity: 0,
+                          y: -5,
+                        }}
+                        animate={{
+                          opacity: 1,
+                          y: 0,
+                        }}
+                      >
+                        {error}
+                      </motion.div>
+                    )}
+
+                    {message && (
+                      <motion.div
+                        className="saom-message is-success"
+                        initial={{
+                          opacity: 0,
+                          y: -5,
+                        }}
+                        animate={{
+                          opacity: 1,
+                          y: 0,
+                        }}
+                      >
+                        {message}
+                      </motion.div>
+                    )}
+
+                    <motion.button
+                      type="submit"
+                      className="saom-btn"
+                      disabled={loading}
+                    >
+                      {loading ? (
+                        <>
+                          <span className="saom-spinner" />
+                          Verifying...
+                        </>
+                      ) : (
+                        <>
+                          Verify email
+                          <span className="saom-btn-arrow">
+                            →
+                          </span>
+                        </>
+                      )}
+                    </motion.button>
+                  </form>
+
+                  <div className="saom-footnote">
+                    Wrong email?{" "}
+                    <button
+                      type="button"
+                      className="saom-text-btn"
+                      onClick={() => {
+                        setStep("signup");
+                        setOtp("");
+                        setError("");
+                        setMessage("");
+                      }}
+                    >
+                      Go back
+                    </button>
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </motion.div>
+
+          <div className="saom-copyright">
+            © 2026 SAOM-AI SECURITY SYSTEMS
+          </div>
+        </motion.div>
+      </section>
+    </div>
+  );
+}
+
+function StepMeter({ label, state }) {
+  return (
+    <div className="saom-step">
+      <div className="saom-step-bar">
+        <motion.div
+          className="saom-step-bar-fill"
+          initial={false}
+          animate={{
+            scaleX:
+              state === "pending" ? 0 : 1,
+          }}
+          style={{
+            background:
+              state === "done"
+                ? "var(--success)"
+                : "var(--grad-core)",
+          }}
+        />
+      </div>
+
+      <span
+        className={`saom-step-label ${
+          state === "active"
+            ? "is-active"
+            : ""
+        } ${
+          state === "done"
+            ? "is-done"
+            : ""
+        }`}
+      >
+        {label}
+      </span>
+    </div>
+  );
+}
+
+function Requirement({ ok, text }) {
+  return (
+    <div
+      className={`saom-requirement ${
+        ok ? "is-valid" : ""
+      }`}
+    >
+      <span className="saom-requirement-dot">
+        {ok && <IconCheck />}
+      </span>
+
+      {text}
     </div>
   );
 }
