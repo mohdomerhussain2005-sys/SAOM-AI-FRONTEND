@@ -1,8 +1,7 @@
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 
 // Pages
-// import Home from "./pages/Home";
-// import Home1 from "./pages/Home1";
+import Home from "./pages/Home";
 import Signin from "./pages/Signin";
 import Signup from "./pages/Signup";
 import Forget from "./pages/Forget";
@@ -17,14 +16,17 @@ function App() {
 
         {/* =========================
             HOME
-            Temporarily disabled
         ========================= */}
 
-        {/* <Route path="/" element={<Home />} /> */}
+        <Route
+          path="/"
+          element={<Home />}
+        />
 
-        {/* <Route path="/home" element={<Home />} /> */}
-
-        {/* <Route path="/home1" element={<Home1 />} /> */}
+        <Route
+          path="/home"
+          element={<Home />}
+        />
 
 
         {/* =========================
@@ -46,6 +48,15 @@ function App() {
           element={<Forget />}
         />
 
+        {/* Optional compatibility route
+            if your existing Sign In page
+            navigates to /forget
+        */}
+        <Route
+          path="/forget"
+          element={<Forget />}
+        />
+
 
         {/* =========================
             FALLBACK
@@ -53,7 +64,7 @@ function App() {
 
         <Route
           path="*"
-          element={<Navigate to="/signin" replace />}
+          element={<Navigate to="/" replace />}
         />
 
       </Routes>
